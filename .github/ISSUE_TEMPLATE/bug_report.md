@@ -1,42 +1,24 @@
 ---
 name: Bug report
-about: Create a report to help improve the extension
-title: ''
+about: Report a bug in PHP Sniffer & Beautifier
 labels: bug
-assignees: wongjn
-
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear description of what went wrong.
 
 **To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+Steps to reproduce the behaviour.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Expected behaviour**
+What you expected to happen.
 
 **Environment**
- - OS: [e.g. Windows 10]
- - VSCode version: [e.g. 1.30.2]
- - PHP CLI version: [e.g. 7.1.26]
- - squizlabs/PHP_CodeSniffer version: [e.g. 3.4.0] (global ❌/✔)
-
-**Extension settings**
-```json
-{
-    "phpSniffer.run": "onSave",
-    "phpSniffer.onTypeDelay": 250,
-    "phpSniffer.executablesFolder": "",
-    "phpSniffer.autoDetect": false,
-    "phpSniffer.standard": "",
-    "phpSniffer.snippetExcludeSniffs" : [],
-}
-```
+- VS Code version:
+- Extension version:
+- PHP version: (`php --version`)
+- PHP_CodeSniffer version: (`phpcs --version`)
+- OS:
 
 **Additional context**
-Add any other context about the problem here.
+Paste any relevant output from the VS Code Output panel → PHP Sniffer.

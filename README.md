@@ -1,3 +1,7 @@
+> **Community Fork** — This is a community-maintained fork of [wongjn/vscode-php-sniffer](https://github.com/wongjn/vscode-php-sniffer) by [@wongjn](https://github.com/wongjn). The original extension is no longer actively maintained. This fork targets PHP_CodeSniffer 3.x and 4.x and VS Code 1.90+.
+
+---
+
 # PHP Sniffer
 
 [![Build Status](https://travis-ci.com/wongjn/vscode-php-sniffer.svg?branch=master)](https://travis-ci.com/wongjn/vscode-php-sniffer)
@@ -17,7 +21,7 @@ and lint (mainly) PHP code.
     ```json
     {
       "[php]": {
-        "editor.defaultFormatter": "wongjn.php-sniffer"
+        "editor.defaultFormatter": "phpcs-community.php-sniffer"
       }
     }
     ```

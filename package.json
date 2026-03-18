@@ -90,7 +90,7 @@
         }
     },
     "bugs": {
-        "url": "https://github.com/wongjn/vscode-php-sniffer/issues"
+        "url": "https://github.com/phpcs-community/vscode-php-sniffer/issues"
     },
     "repository": {
         "type": "git",

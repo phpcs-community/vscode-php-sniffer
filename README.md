@@ -5,7 +5,7 @@
 # PHP Sniffer
 
 [![Build Status](https://travis-ci.com/wongjn/vscode-php-sniffer.svg?branch=master)](https://travis-ci.com/wongjn/vscode-php-sniffer)
-[![PHP Sniffer on the Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version-short/wongjn.php-sniffer.svg)](https://marketplace.visualstudio.com/items?itemName=wongjn.php-sniffer)
+[![PHP Sniffer on the Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version-short/phpcs-community.php-sniffer.svg)](https://marketplace.visualstudio.com/items?itemName=phpcs-community.php-sniffer)
 
 Uses [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) to format
 and lint (mainly) PHP code.

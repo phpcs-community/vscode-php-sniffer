@@ -1,5 +1,5 @@
 const { deepStrictEqual, rejects, strictEqual } = require('assert');
-const { mapToCliArgs, executeCommand } = require('../../lib/cli');
+const { mapToCliArgs, executeCommand, CliCommandError } = require('../../lib/cli');
 const { createStubToken, createMockToken } = require('../utils');
 
 suite('CLI Utilities', function () {
@@ -85,5 +85,31 @@ suite('CLI Utilities', function () {
 
       strictEqual(result, 'foo');
     });
+  });
+});
+
+/** Minimal cancellation token stub — no vscode import needed */
+const token = { isCancellationRequested: false, onCancellationRequested: () => ({ dispose: () => {} }) };
+
+suite('executeCommand exitCodeThreshold', function () {
+  test('throws on exit code 1 by default', async function () {
+    await rejects(
+      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(1)'], token }),
+      (err) => err instanceof CliCommandError && err.exitCode === 1,
+    );
+  });
+
+  test('does not throw on exit code 1 when threshold is 1', async function () {
+    const { doesNotReject } = require('assert');
+    await doesNotReject(
+      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(1)'], token, exitCodeThreshold: 1 }),
+    );
+  });
+
+  test('throws on exit code 2 when threshold is 1', async function () {
+    await rejects(
+      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(2)'], token, exitCodeThreshold: 1 }),
+      (err) => err instanceof CliCommandError && err.exitCode === 2,
+    );
   });
 });

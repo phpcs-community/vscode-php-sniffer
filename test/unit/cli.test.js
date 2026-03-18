@@ -1,4 +1,4 @@
-const { deepStrictEqual, rejects, strictEqual } = require('assert');
+const { deepStrictEqual, doesNotReject, rejects, strictEqual } = require('assert');
 const { mapToCliArgs, executeCommand, CliCommandError } = require('../../lib/cli');
 const { createStubToken, createMockToken } = require('../utils');
 
@@ -100,7 +100,6 @@ suite('executeCommand exitCodeThreshold', function () {
   });
 
   test('does not throw on exit code 1 when threshold is 1', async function () {
-    const { doesNotReject } = require('assert');
     await doesNotReject(
       () => executeCommand({ command: 'node', args: ['-e', 'process.exit(1)'], token, exitCodeThreshold: 1 }),
     );

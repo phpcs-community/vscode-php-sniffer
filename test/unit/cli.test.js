@@ -89,7 +89,10 @@ suite('CLI Utilities', function () {
 });
 
 /** Minimal cancellation token stub — no vscode import needed */
-const token = { isCancellationRequested: false, onCancellationRequested: () => ({ dispose: () => {} }) };
+const token = {
+  isCancellationRequested: false,
+  onCancellationRequested: () => ({ dispose: () => {} }),
+};
 
 suite('executeCommand exitCodeThreshold', function () {
   test('throws on exit code 1 by default', async function () {

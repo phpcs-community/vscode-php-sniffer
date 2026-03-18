@@ -103,18 +103,18 @@
         "version": "node ./scripts/changelog && git add CHANGELOG.md"
     },
     "devDependencies": {
-        "@types/lodash.debounce": "^4.0.6",
-        "@types/node": "^10.14.9",
-        "@types/vscode": "^1.29.0",
-        "eslint": "^6.6.0",
-        "eslint-config-airbnb-base": "^14.0.0",
-        "eslint-plugin-import": "^2.18.2",
-        "fs-extra": "^7.0.1",
-        "get-stdin": "^7.0.0",
-        "glob": "^7.1.6",
-        "mocha": "^7.1.2",
-        "typescript": "^3.7.3",
-        "vscode-test": "^1.2.3"
+        "@types/lodash.debounce": "^4.0.9",
+        "@types/node": "^24.0.0",
+        "@types/vscode": "^1.90.0",
+        "eslint": "^8.57.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.29.0",
+        "fs-extra": "^11.0.0",
+        "get-stdin": "^9.0.0",
+        "glob": "^10.0.0",
+        "mocha": "^10.0.0",
+        "typescript": "^5.0.0",
+        "@vscode/test-electron": "^2.4.0"
     },
     "dependencies": {
         "lodash.debounce": "^4.0.8"

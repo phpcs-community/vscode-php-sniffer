@@ -8,7 +8,7 @@ module.exports = {
     'object-curly-newline': ['error', { multiline: true, minProperties: 99 }],
     'import/no-unresolved': [
       'error',
-      { commonjs: true, caseSensitive: true, ignore: ['vscode'] }
+      { commonjs: true, caseSensitive: true, ignore: ['vscode'] },
     ],
   },
 };

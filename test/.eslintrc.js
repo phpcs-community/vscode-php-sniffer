@@ -1,7 +1,5 @@
 module.exports = {
-  env: {
-    mocha: true,
-  },
+  env: { mocha: true },
   rules: {
     // Reduce verbosity of function callbacks.
     'func-names': 0,

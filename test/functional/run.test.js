@@ -13,7 +13,7 @@ const { getNextDiagnostics } = require('./utils');
  * @return {Promise<void>}
  *   Promise that resolves once `length` time has passed.
  */
-const wait = (length) => new Promise((resolve) => setTimeout(resolve, length));
+const wait = (length) => new Promise((resolve) => { setTimeout(resolve, length); });
 
 suite('Validator run', function () {
   this.timeout(5000);

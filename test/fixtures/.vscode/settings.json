@@ -1,5 +1,5 @@
 {
     "php.validate.enable": false,
     "css.validate": false,
-    "editor.defaultFormatter": "phpcs-community.php-codesniffer"
+    "editor.defaultFormatter": "phpcscommunity.php-codesniffer"
 }

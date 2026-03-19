@@ -6,7 +6,7 @@
     "engines": {
         "vscode": "^1.90.0"
     },
-    "publisher": "phpcs-community",
+    "publisher": "phpcscommunity",
     "icon": "icon.png",
     "license": "MIT",
     "categories": [

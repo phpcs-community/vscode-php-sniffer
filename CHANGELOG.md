@@ -2,6 +2,12 @@
 
 All notable changes to the "PHP Sniffer & Beautifier" extension will be documented in this file.
 
+## [1.5.0] - 2026-03-19
+
+### Added
+
+- PHP CodeSniffer output channel in the VS Code Output panel — phpcs and phpcbf errors are now logged with timestamps instead of only showing as popups
+
 ## [1.4.0] - 2026-03-18
 
 ### Changed

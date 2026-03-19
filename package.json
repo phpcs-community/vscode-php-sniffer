@@ -103,7 +103,7 @@
         "test:unit": "mocha \"./test/unit/*.test.js\"",
         "test:integration": "node ./test/run.js",
         "version": "node ./scripts/changelog && git add CHANGELOG.md",
-        "publish:vsce": "vsce publish",
+        "publish:vsce": "npx @vscode/vsce publish",
         "publish:ovsx": "node ./scripts/publish-ovsx.js"
     },
     "devDependencies": {

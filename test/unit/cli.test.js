@@ -114,4 +114,23 @@ suite('executeCommand exitCodeThreshold', function () {
       (err) => err instanceof CliCommandError && err.exitCode === 2,
     );
   });
+
+  test('does not throw on exit code 2 when threshold is 2 (phpcbf 4.x partial fix)', async function () {
+    await doesNotReject(
+      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(2)'], token, exitCodeThreshold: 2 }),
+    );
+  });
+
+  test('does not throw on exit code 3 when threshold is 3 (phpcs 4.x fixable errors)', async function () {
+    await doesNotReject(
+      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(3)'], token, exitCodeThreshold: 3 }),
+    );
+  });
+
+  test('throws on exit code 4 when threshold is 3', async function () {
+    await rejects(
+      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(4)'], token, exitCodeThreshold: 3 }),
+      (err) => err instanceof CliCommandError && err.exitCode === 4,
+    );
+  });
 });

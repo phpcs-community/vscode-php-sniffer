@@ -10,9 +10,7 @@
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
+            "args": ["--extensionDevelopmentPath=${workspaceFolder}"]
         },
         {
             "name": "Extension Unit Tests",
@@ -20,10 +18,13 @@
             "request": "launch",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "stopOnEntry": false,
-            "args": ["--timeout", "999999", "--colors", "./test/unit/*.test.js"],
-            "skipFiles": [
-                "<node_internals>/**"
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "./test/unit/*.test.js"
             ],
+            "skipFiles": ["<node_internals>/**"],
             "smartStep": true
         },
         {

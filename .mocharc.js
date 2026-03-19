@@ -7,4 +7,4 @@
 module.exports = {
   ui: 'tdd',
   color: true,
-}
+};

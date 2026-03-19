@@ -31,13 +31,24 @@ suite('Token Manager from createTokenManager()', function () {
 
     const tokenManager = createTokenManager(() => mock.tokenSource);
     const token = tokenManager.registerToken('key');
-    assert.ok('isCancellationRequested' in token, 'Token is given on registration call.');
+    assert.ok(
+      'isCancellationRequested' in token,
+      'Token is given on registration call.',
+    );
 
     tokenManager.registerToken('key');
 
     const result = mock.reveal();
-    assert.strictEqual(result.cancelled, 1, 'Token cancellation should be called for duplicate key registration.');
-    assert.strictEqual(result.disposed, 1, 'Token source disposal should be called for duplicate key registration.');
+    assert.strictEqual(
+      result.cancelled,
+      1,
+      'Token cancellation should be called for duplicate key registration.',
+    );
+    assert.strictEqual(
+      result.disposed,
+      1,
+      'Token source disposal should be called for duplicate key registration.',
+    );
   });
 
   test('Token cancellation', function () {
@@ -48,8 +59,16 @@ suite('Token Manager from createTokenManager()', function () {
     tokenManager.discardToken('key');
 
     const result = mock.reveal();
-    assert.strictEqual(result.cancelled, 1, 'Token cancellation should happen.');
-    assert.strictEqual(result.disposed, 1, 'Token source disposal should happen.');
+    assert.strictEqual(
+      result.cancelled,
+      1,
+      'Token cancellation should happen.',
+    );
+    assert.strictEqual(
+      result.disposed,
+      1,
+      'Token source disposal should happen.',
+    );
   });
 
   test('Token clearing', function () {
@@ -64,6 +83,10 @@ suite('Token Manager from createTokenManager()', function () {
 
     const result = mock.reveal();
     assert.strictEqual(result.cancelled, 3, 'All tokens should be cancelled.');
-    assert.strictEqual(result.disposed, 3, 'All token sources should be disposed.');
+    assert.strictEqual(
+      result.disposed,
+      3,
+      'All token sources should be disposed.',
+    );
   });
 });

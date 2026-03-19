@@ -1,5 +1,14 @@
-const { deepStrictEqual, doesNotReject, rejects, strictEqual } = require('assert');
-const { mapToCliArgs, executeCommand, CliCommandError } = require('../../lib/cli');
+const {
+  deepStrictEqual,
+  doesNotReject,
+  rejects,
+  strictEqual,
+} = require('assert');
+const {
+  mapToCliArgs,
+  executeCommand,
+  CliCommandError,
+} = require('../../lib/cli');
 const { createStubToken, createMockToken } = require('../utils');
 
 suite('CLI Utilities', function () {
@@ -8,14 +17,31 @@ suite('CLI Utilities', function () {
       const args1 = new Map([['a', 'b']]);
       deepStrictEqual(mapToCliArgs(args1), ['--a=b']);
 
-      const args2 = new Map([['a', 'b'], ['c', '1']]);
+      const args2 = new Map([
+        ['a', 'b'],
+        ['c', '1'],
+      ]);
       deepStrictEqual(mapToCliArgs(args2), ['--a=b', '--c=1']);
 
-      const args3 = new Map([['a', 'b'], ['c', '']]);
-      deepStrictEqual(mapToCliArgs(args3), ['--a=b'], 'Entries with empty values should not be compiled.');
+      const args3 = new Map([
+        ['a', 'b'],
+        ['c', ''],
+      ]);
+      deepStrictEqual(
+        mapToCliArgs(args3),
+        ['--a=b'],
+        'Entries with empty values should not be compiled.',
+      );
 
-      const args4 = new Map([['a', 'b'], ['', '1']]);
-      deepStrictEqual(mapToCliArgs(args4), ['--a=b'], 'Entries with empty keys should not be compiled.');
+      const args4 = new Map([
+        ['a', 'b'],
+        ['', '1'],
+      ]);
+      deepStrictEqual(
+        mapToCliArgs(args4),
+        ['--a=b'],
+        'Entries with empty keys should not be compiled.',
+      );
     });
 
     test('Only values that need quotes are quoted when requested', function () {
@@ -24,8 +50,14 @@ suite('CLI Utilities', function () {
         ['b', 'needs quotes'],
       ]);
 
-      deepStrictEqual(mapToCliArgs(args1), ['--a=no-quotes', '--b=needs quotes']);
-      deepStrictEqual(mapToCliArgs(args1, true), ['--a=no-quotes', '--b="needs quotes"']);
+      deepStrictEqual(mapToCliArgs(args1), [
+        '--a=no-quotes',
+        '--b=needs quotes',
+      ]);
+      deepStrictEqual(mapToCliArgs(args1, true), [
+        '--a=no-quotes',
+        '--b="needs quotes"',
+      ]);
     });
   });
 
@@ -97,39 +129,71 @@ const token = {
 suite('executeCommand exitCodeThreshold', function () {
   test('throws on exit code 1 by default', async function () {
     await rejects(
-      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(1)'], token }),
+      () =>
+        executeCommand({
+          command: 'node',
+          args: ['-e', 'process.exit(1)'],
+          token,
+        }),
       (err) => err instanceof CliCommandError && err.exitCode === 1,
     );
   });
 
   test('does not throw on exit code 1 when threshold is 1', async function () {
-    await doesNotReject(
-      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(1)'], token, exitCodeThreshold: 1 }),
+    await doesNotReject(() =>
+      executeCommand({
+        command: 'node',
+        args: ['-e', 'process.exit(1)'],
+        token,
+        exitCodeThreshold: 1,
+      }),
     );
   });
 
   test('throws on exit code 2 when threshold is 1', async function () {
     await rejects(
-      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(2)'], token, exitCodeThreshold: 1 }),
+      () =>
+        executeCommand({
+          command: 'node',
+          args: ['-e', 'process.exit(2)'],
+          token,
+          exitCodeThreshold: 1,
+        }),
       (err) => err instanceof CliCommandError && err.exitCode === 2,
     );
   });
 
   test('does not throw on exit code 2 when threshold is 2 (phpcbf 4.x partial fix)', async function () {
-    await doesNotReject(
-      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(2)'], token, exitCodeThreshold: 2 }),
+    await doesNotReject(() =>
+      executeCommand({
+        command: 'node',
+        args: ['-e', 'process.exit(2)'],
+        token,
+        exitCodeThreshold: 2,
+      }),
     );
   });
 
   test('does not throw on exit code 3 when threshold is 3 (phpcs 4.x fixable errors)', async function () {
-    await doesNotReject(
-      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(3)'], token, exitCodeThreshold: 3 }),
+    await doesNotReject(() =>
+      executeCommand({
+        command: 'node',
+        args: ['-e', 'process.exit(3)'],
+        token,
+        exitCodeThreshold: 3,
+      }),
     );
   });
 
   test('throws on exit code 4 when threshold is 3', async function () {
     await rejects(
-      () => executeCommand({ command: 'node', args: ['-e', 'process.exit(4)'], token, exitCodeThreshold: 3 }),
+      () =>
+        executeCommand({
+          command: 'node',
+          args: ['-e', 'process.exit(4)'],
+          token,
+          exitCodeThreshold: 3,
+        }),
       (err) => err instanceof CliCommandError && err.exitCode === 4,
     );
   });

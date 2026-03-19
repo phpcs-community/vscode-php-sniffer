@@ -73,7 +73,7 @@
                     "scope": "resource",
                     "type": "string",
                     "default": "",
-                    "markdownDescription": "The standards to check against. This is passed to the `phpcbf` and `phpcs` executables as the value for `--standard`. Can be absolute, or relative to the workspace folder. If not set, [PHP_CodeSniffer will attempt to find a file to use](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file)."
+                    "markdownDescription": "The standards to check against. This is passed to the `phpcbf` and `phpcs` executables as the value for `--standard`. Can be absolute, or relative to the workspace folder. If not set, [PHP_CodeSniffer will attempt to find a file to use](https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file)."
                 },
                 "phpSniffer.snippetExcludeSniffs": {
                     "scope": "resource",
@@ -98,7 +98,8 @@
         "url": "https://github.com/phpcs-community/vscode-php-sniffer"
     },
     "scripts": {
-        "lint": "eslint --ignore-path .gitignore . && tsc",
+        "format": "prettier --write .",
+        "lint": "prettier --check . && eslint --ignore-path .gitignore . && tsc",
         "test:unit": "mocha \"./test/unit/*.test.js\"",
         "test:integration": "node ./test/run.js",
         "version": "node ./scripts/changelog && git add CHANGELOG.md"
@@ -107,15 +108,17 @@
         "@types/lodash.debounce": "^4.0.9",
         "@types/node": "^24.0.0",
         "@types/vscode": "^1.90.0",
+        "@vscode/test-electron": "^2.4.0",
         "eslint": "^8.57.0",
         "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-import": "^2.29.0",
         "fs-extra": "^11.0.0",
         "get-stdin": "^9.0.0",
         "glob": "^10.0.0",
         "mocha": "^10.0.0",
-        "typescript": "^5.0.0",
-        "@vscode/test-electron": "^2.4.0"
+        "prettier": "^3.8.1",
+        "typescript": "^5.0.0"
     },
     "dependencies": {
         "lodash.debounce": "^4.0.8"

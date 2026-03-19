@@ -1,5 +1,5 @@
 {
     "php.validate.enable": false,
     "css.validate": false,
-    "editor.defaultFormatter": "wongjn.php-sniffer"
+    "editor.defaultFormatter": "phpcs-community.php-codesniffer"
 }

@@ -2,10 +2,10 @@
 
 ---
 
-# PHP Sniffer & Beautifier
+# PHP CodeSniffer & Beautifier
 
-[![PHP Sniffer on the Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/phpcs-community.php-sniffer?label=VS%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=phpcs-community.php-sniffer)
-[![PHP Sniffer on Open VSX](https://img.shields.io/open-vsx/v/phpcs-community/php-sniffer?label=Open%20VSX)](https://open-vsx.org/extension/phpcs-community/php-sniffer)
+[![PHP Sniffer on the Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/phpcs-community.php-codesniffer?label=VS%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=phpcs-community.php-codesniffer)
+[![PHP Sniffer on Open VSX](https://img.shields.io/open-vsx/v/phpcs-community/php-codesniffer?label=Open%20VSX)](https://open-vsx.org/extension/phpcs-community/php-codesniffer)
 
 Uses [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer) to format
 and lint (mainly) PHP code.
@@ -21,7 +21,7 @@ and lint (mainly) PHP code.
     ```json
     {
       "[php]": {
-        "editor.defaultFormatter": "phpcs-community.php-sniffer"
+        "editor.defaultFormatter": "phpcs-community.php-codesniffer"
       }
     }
     ```

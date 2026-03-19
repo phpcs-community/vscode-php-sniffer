@@ -1,6 +1,6 @@
 {
-    "name": "php-sniffer",
-    "displayName": "PHP Sniffer & Beautifier",
+    "name": "php-codesniffer",
+    "displayName": "PHP CodeSniffer & Beautifier",
     "description": "Community fork of wongjn/vscode-php-sniffer. Uses PHP_CodeSniffer to lint and format PHP code.",
     "version": "1.4.0",
     "engines": {

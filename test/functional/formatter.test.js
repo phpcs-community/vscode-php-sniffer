@@ -7,7 +7,9 @@ const {
   WorkspaceEdit,
   Uri,
 } = require('vscode');
-const { Formatter } = require('../../lib/formatter');
+const { createFormatter } = require('../../lib/formatter');
+
+const { Formatter } = createFormatter({ appendLine: () => {} });
 const { execPromise, FIXTURES_PATH } = require('../utils');
 
 suite('Formatter', function () {

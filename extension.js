@@ -18,7 +18,7 @@ module.exports = {
    *   A collection of utilities private to an extension.
    */
   activate(context) {
-    const channel = window.createOutputChannel('PHP Sniffer');
+    const channel = window.createOutputChannel('PHP CodeSniffer');
 
     const { Formatter, PhpDocumentFormatter } = createFormatter(channel);
 
@@ -32,7 +32,7 @@ module.exports = {
         { language: 'php', scheme: 'file' },
         Formatter,
       ),
-      activateGenericFormatter(),
+      activateGenericFormatter(channel),
       createValidator(channel),
     );
   },

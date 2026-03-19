@@ -13,7 +13,7 @@ All notable changes to the "PHP Sniffer & Beautifier" extension will be document
 ### Changed
 
 - Forked from [wongjn/vscode-php-sniffer](https://github.com/wongjn/vscode-php-sniffer) as a community-maintained fork
-- Publisher changed to `phpcs-community`
+- Publisher set to `phpcscommunity` on VS Marketplace, `phpcs-community` on Open VSX
 - Updated VS Code engine requirement to `^1.90.0`
 - Modernized dependencies: Node 24, TypeScript 5.x, ESLint 8.x, Mocha 10.x
 

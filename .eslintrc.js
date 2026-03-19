@@ -1,8 +1,6 @@
 module.exports = {
   root: true,
-  extends: [
-    'airbnb-base',
-  ],
+  extends: ['airbnb-base', 'prettier'],
   rules: {
     'no-underscore-dangle': 0,
     'object-curly-newline': ['error', { multiline: true, minProperties: 99 }],

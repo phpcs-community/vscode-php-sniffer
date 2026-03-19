@@ -15,7 +15,11 @@ const original = pkg.publisher;
 try {
   pkg.publisher = 'phpcs-community';
   fs.writeFileSync(PKG_PATH, `${JSON.stringify(pkg, null, 4)}\n`);
-  execFileSync('npx', ['ovsx', 'publish'], { stdio: 'inherit', shell: true });
+  const args = ['ovsx', 'publish'];
+  if (process.env.OVSX_PAT) {
+    args.push('-p', process.env.OVSX_PAT);
+  }
+  execFileSync('npx', args, { stdio: 'inherit', shell: true });
 } finally {
   pkg.publisher = original;
   fs.writeFileSync(PKG_PATH, `${JSON.stringify(pkg, null, 4)}\n`);

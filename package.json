@@ -102,7 +102,9 @@
         "lint": "prettier --check . && eslint --ignore-path .gitignore . && tsc",
         "test:unit": "mocha \"./test/unit/*.test.js\"",
         "test:integration": "node ./test/run.js",
-        "version": "node ./scripts/changelog && git add CHANGELOG.md"
+        "version": "node ./scripts/changelog && git add CHANGELOG.md",
+        "publish:vsce": "vsce publish",
+        "publish:ovsx": "node ./scripts/publish-ovsx.js"
     },
     "devDependencies": {
         "@types/lodash.debounce": "^4.0.9",

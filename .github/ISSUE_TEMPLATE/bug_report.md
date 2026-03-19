@@ -14,6 +14,7 @@ Steps to reproduce the behaviour.
 What you expected to happen.
 
 **Environment**
+
 - VS Code version:
 - Extension version:
 - PHP version: (`php --version`)

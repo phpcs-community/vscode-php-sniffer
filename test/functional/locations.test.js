@@ -32,7 +32,10 @@ function testCase({
   standard,
   testSetup,
 }) {
-  const filePath = path.join(FIXTURES_PATH, `index${Math.floor(Math.random() * 3000)}.php`);
+  const filePath = path.join(
+    FIXTURES_PATH,
+    `index${Math.floor(Math.random() * 3000)}.php`,
+  );
   const fileUri = Uri.file(filePath);
 
   suite(description, function () {
@@ -42,7 +45,9 @@ function testCase({
     suiteSetup(async function () {
       await Promise.all([
         createFile(filePath),
-        workspace.getConfiguration('phpSniffer', fileUri).update('standard', standard),
+        workspace
+          .getConfiguration('phpSniffer', fileUri)
+          .update('standard', standard),
       ]);
 
       await writeFile(filePath, content);
@@ -51,7 +56,9 @@ function testCase({
 
     suiteTeardown(async function () {
       await Promise.all([
-        workspace.getConfiguration('phpSniffer', fileUri).update('standard', undefined),
+        workspace
+          .getConfiguration('phpSniffer', fileUri)
+          .update('standard', undefined),
         unlink(filePath),
       ]);
       if (tearDown) await tearDown.call(this);
@@ -83,8 +90,16 @@ function testCase({
         const { row, column } = expectedValidationErrors[i];
         const { start } = diagnostic.range;
 
-        assert.strictEqual(start.line, row, `Diagnostic ${i + 1} line number is correct`);
-        assert.strictEqual(start.character, column, `Diagnostic ${i + 1} character position is correct`);
+        assert.strictEqual(
+          start.line,
+          row,
+          `Diagnostic ${i + 1} line number is correct`,
+        );
+        assert.strictEqual(
+          start.character,
+          column,
+          `Diagnostic ${i + 1} character position is correct`,
+        );
       });
     });
 
@@ -121,9 +136,7 @@ function functionalTestSuiteRun() {
   testCase({
     description: 'Local ruleset',
     content: '<?php $b = 1 ; ?>\n',
-    expectedValidationErrors: [
-      { row: 0, column: 13 },
-    ],
+    expectedValidationErrors: [{ row: 0, column: 13 }],
     expectedFormattedResult: '<?php $b = 1; ?>\n',
     standard: './phpcs-semicolon.xml',
   });
@@ -133,15 +146,13 @@ suite('Executable & ruleset locations', function () {
   suite('Global executable', function () {
     suiteSetup(async function () {
       this.timeout(20000);
-      if (!await hasGlobalPHPCS()) this.skip();
+      if (!(await hasGlobalPHPCS())) this.skip();
     });
 
     testCase({
       description: 'Use default_standard from global config',
       content: '<?php $b = 1 ; ?>\n',
-      expectedValidationErrors: [
-        { row: 0, column: 15 },
-      ],
+      expectedValidationErrors: [{ row: 0, column: 15 }],
       expectedFormattedResult: '<?php $b = 1 ;\n',
       async testSetup() {
         // Save user-set default_standard config option if there was any so that

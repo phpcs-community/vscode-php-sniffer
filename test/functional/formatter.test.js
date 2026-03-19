@@ -1,11 +1,19 @@
 const path = require('path');
 const assert = require('assert');
-const { CancellationTokenSource, Range, workspace, WorkspaceEdit, Uri } = require('vscode');
+const {
+  CancellationTokenSource,
+  Range,
+  workspace,
+  WorkspaceEdit,
+  Uri,
+} = require('vscode');
 const { Formatter } = require('../../lib/formatter');
 const { execPromise, FIXTURES_PATH } = require('../utils');
 
 suite('Formatter', function () {
-  const fixtureUri = Uri.file(path.join(FIXTURES_PATH, `index${Math.floor(Math.random() * 3000)}.php`));
+  const fixtureUri = Uri.file(
+    path.join(FIXTURES_PATH, `index${Math.floor(Math.random() * 3000)}.php`),
+  );
   const textEncoder = new TextEncoder();
 
   suiteSetup(async function () {
@@ -16,7 +24,10 @@ suite('Formatter', function () {
     await execPromise('composer install --no-dev', { cwd: FIXTURES_PATH });
 
     await Promise.all([
-      workspace.fs.writeFile(fixtureUri, textEncoder.encode('<?php\n$foo = TRUE;\n')),
+      workspace.fs.writeFile(
+        fixtureUri,
+        textEncoder.encode('<?php\n$foo = TRUE;\n'),
+      ),
       config.update('executablesFolder', `vendor${path.sep}bin${path.sep}`),
       config.update('standard', './tab-indent.xml'),
     ]);

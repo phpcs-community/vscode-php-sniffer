@@ -5,7 +5,10 @@ const { FIXTURES_PATH } = require('../utils');
 
 suite('Error handling', function () {
   test('Validator should bubble PHPCS execution errors', async function () {
-    const filePath = path.join(FIXTURES_PATH, `index${Math.floor(Math.random() * 3000)}.php`);
+    const filePath = path.join(
+      FIXTURES_PATH,
+      `index${Math.floor(Math.random() * 3000)}.php`,
+    );
     const fixtureUri = Uri.file(filePath);
     await createFile(filePath);
 

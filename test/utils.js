@@ -68,7 +68,7 @@ module.exports.getConfigMock = getConfigMock;
  */
 const createStubToken = () => ({
   onCancellationRequested() {
-    return { dispose() { } };
+    return { dispose() {} };
   },
   isCancellationRequested: false,
 });
@@ -108,7 +108,7 @@ const createMockToken = () => {
     },
     onCancellationRequested(callback) {
       cancelCallback = callback;
-      return { dispose: () => { } };
+      return { dispose: () => {} };
     },
   };
 };
@@ -124,13 +124,16 @@ module.exports.createMockToken = createMockToken;
  *   The expected position to receive.
  */
 module.exports.assertPosition = (actual, expected) => {
-  assert.ok(expected.isEqual(actual), new assert.AssertionError({
-    message: `Expected positions to be the same:
+  assert.ok(
+    expected.isEqual(actual),
+    new assert.AssertionError({
+      message: `Expected positions to be the same:
 
 Line ${actual.line}, Character ${actual.character} != Line ${expected.line}, Character ${expected.character}
 `,
-    actual: { line: actual.line, character: actual.character },
-    expected: { line: expected.line, character: expected.character },
-    operator: 'assertPosition',
-  }));
+      actual: { line: actual.line, character: actual.character },
+      expected: { line: expected.line, character: expected.character },
+      operator: 'assertPosition',
+    }),
+  );
 };

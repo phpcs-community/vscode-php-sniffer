@@ -1,6 +1,13 @@
 const assert = require('assert');
 const path = require('path');
-const { commands, languages, Range, window, workspace, Uri } = require('vscode');
+const {
+  commands,
+  languages,
+  Range,
+  window,
+  workspace,
+  Uri,
+} = require('vscode');
 const { createFile, writeFile, unlink } = require('fs-extra');
 const { execPromise, FIXTURES_PATH } = require('../utils');
 const { getNextDiagnostics } = require('./utils');
@@ -13,7 +20,10 @@ const { getNextDiagnostics } = require('./utils');
  * @return {Promise<void>}
  *   Promise that resolves once `length` time has passed.
  */
-const wait = (length) => new Promise((resolve) => { setTimeout(resolve, length); });
+const wait = (length) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, length);
+  });
 
 suite('Validator run', function () {
   this.timeout(5000);
@@ -22,13 +32,19 @@ suite('Validator run', function () {
     this.timeout(60000);
     await execPromise('composer install --no-dev', { cwd: FIXTURES_PATH });
 
-    const config = workspace.getConfiguration('phpSniffer', Uri.file(FIXTURES_PATH));
+    const config = workspace.getConfiguration(
+      'phpSniffer',
+      Uri.file(FIXTURES_PATH),
+    );
     await config.update('executablesFolder', `vendor${path.sep}bin${path.sep}`);
     await config.update('standard', 'PSR2');
   });
 
   suiteTeardown(async function () {
-    const config = workspace.getConfiguration('phpSniffer', Uri.file(FIXTURES_PATH));
+    const config = workspace.getConfiguration(
+      'phpSniffer',
+      Uri.file(FIXTURES_PATH),
+    );
     await config.update('executablesFolder', undefined);
     await config.update('standard', undefined);
   });
@@ -37,7 +53,10 @@ suite('Validator run', function () {
   let fileUri;
 
   setup(async function () {
-    const filePath = path.join(FIXTURES_PATH, `index${Math.floor(Math.random() * 3000)}.php`);
+    const filePath = path.join(
+      FIXTURES_PATH,
+      `index${Math.floor(Math.random() * 3000)}.php`,
+    );
     fileUri = Uri.file(filePath);
 
     await createFile(filePath);
@@ -45,7 +64,10 @@ suite('Validator run', function () {
   });
 
   teardown(() => {
-    const config = workspace.getConfiguration('phpSniffer', Uri.file(FIXTURES_PATH));
+    const config = workspace.getConfiguration(
+      'phpSniffer',
+      Uri.file(FIXTURES_PATH),
+    );
 
     return Promise.all([
       config.update('run', undefined),
@@ -63,29 +85,48 @@ suite('Validator run', function () {
     const diagnosticsWatch0 = getNextDiagnostics(fileUri);
     const document = await workspace.openTextDocument(fileUri);
 
-    assert.strictEqual((await diagnosticsWatch0).length, 5, 'Opening a document runs validation.');
+    assert.strictEqual(
+      (await diagnosticsWatch0).length,
+      5,
+      'Opening a document runs validation.',
+    );
 
     (await window.showTextDocument(document)).edit((edit) => {
       edit.replace(new Range(0, 12, 0, 20), 'MyClass');
     });
 
     await wait(700);
-    assert.strictEqual(languages.getDiagnostics(fileUri).length, 5, 'Editing a document does not run validation.');
+    assert.strictEqual(
+      languages.getDiagnostics(fileUri).length,
+      5,
+      'Editing a document does not run validation.',
+    );
 
     const diagnosticsWatch2 = getNextDiagnostics(fileUri);
     document.save();
-    assert.strictEqual((await diagnosticsWatch2).length, 4, 'Saving a document runs validation.');
+    assert.strictEqual(
+      (await diagnosticsWatch2).length,
+      4,
+      'Saving a document runs validation.',
+    );
   });
 
   test('onType (with onTypeDelay)', async function () {
-    const config = workspace.getConfiguration('phpSniffer', Uri.file(FIXTURES_PATH));
+    const config = workspace.getConfiguration(
+      'phpSniffer',
+      Uri.file(FIXTURES_PATH),
+    );
     await config.update('run', 'onType');
     await config.update('onTypeDelay', 1000);
 
     const diagnosticsWatch0 = getNextDiagnostics(fileUri);
     const document = await workspace.openTextDocument(fileUri);
 
-    assert.strictEqual((await diagnosticsWatch0).length, 5, 'Opening a document runs validation.');
+    assert.strictEqual(
+      (await diagnosticsWatch0).length,
+      5,
+      'Opening a document runs validation.',
+    );
 
     const editor = await window.showTextDocument(document);
 
@@ -94,10 +135,19 @@ suite('Validator run', function () {
 
     editor
       .edit((edit) => edit.replace(new Range(0, 12, 0, 20), 'MyClass'))
-      .then(() => { now = Date.now(); });
+      .then(() => {
+        now = Date.now();
+      });
 
-    assert.strictEqual((await diagnosticsWatch1).length, 4, 'Validation runs after change.');
-    assert(Date.now() - now > 1000, 'Validation ran after `onTypeDelay` elapsed.');
+    assert.strictEqual(
+      (await diagnosticsWatch1).length,
+      4,
+      'Validation runs after change.',
+    );
+    assert(
+      Date.now() - now > 1000,
+      'Validation ran after `onTypeDelay` elapsed.',
+    );
   });
 
   test('never', async function () {
@@ -108,16 +158,28 @@ suite('Validator run', function () {
     const document = await workspace.openTextDocument(fileUri);
 
     await wait(700);
-    assert.strictEqual(languages.getDiagnostics(fileUri).length, 0, 'No validation errors.');
+    assert.strictEqual(
+      languages.getDiagnostics(fileUri).length,
+      0,
+      'No validation errors.',
+    );
 
     (await window.showTextDocument(document)).edit((edit) => {
       edit.replace(new Range(0, 12, 0, 20), 'MyClass');
     });
 
     await wait(700);
-    assert.strictEqual(languages.getDiagnostics(fileUri).length, 0, 'No validation errors.');
+    assert.strictEqual(
+      languages.getDiagnostics(fileUri).length,
+      0,
+      'No validation errors.',
+    );
 
     await wait(700);
-    assert.strictEqual(languages.getDiagnostics(fileUri).length, 0, 'No validation errors.');
+    assert.strictEqual(
+      languages.getDiagnostics(fileUri).length,
+      0,
+      'No validation errors.',
+    );
   });
 });

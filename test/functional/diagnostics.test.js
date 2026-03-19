@@ -11,19 +11,28 @@ const { assertPosition, FIXTURES_PATH } = require('../utils');
  * @return {Promise<import('vscode').Diagnostic>}
  *   A promise that resolves to the next diagnostic.
  */
-const getNextDiagnostic = (fileUri) => new Promise((resolve) => {
-  const subscription = languages.onDidChangeDiagnostics(({ uris }) => {
-    const documentUri = uris.find((uri) => uri.toString() === fileUri.toString());
-    if (!documentUri) return;
+const getNextDiagnostic = (fileUri) =>
+  new Promise((resolve) => {
+    const subscription = languages.onDidChangeDiagnostics(({ uris }) => {
+      const documentUri = uris.find(
+        (uri) => uri.toString() === fileUri.toString(),
+      );
+      if (!documentUri) return;
 
-    subscription.dispose();
-    resolve(languages.getDiagnostics(documentUri)[0]);
+      subscription.dispose();
+      resolve(languages.getDiagnostics(documentUri)[0]);
+    });
   });
-});
 
 suite('Diagnostic column index with tab indentation', function () {
-  const fixturePath1 = path.join(FIXTURES_PATH, `index${Math.floor(Math.random() * 3000)}.php`);
-  const fixturePath2 = path.join(FIXTURES_PATH, `index${Math.floor(Math.random() * 3000)}.php`);
+  const fixturePath1 = path.join(
+    FIXTURES_PATH,
+    `index${Math.floor(Math.random() * 3000)}.php`,
+  );
+  const fixturePath2 = path.join(
+    FIXTURES_PATH,
+    `index${Math.floor(Math.random() * 3000)}.php`,
+  );
   const fixtureUri1 = Uri.file(fixturePath1);
   const fixtureUri2 = Uri.file(fixturePath2);
   const textEncoder = new TextEncoder();
@@ -32,8 +41,14 @@ suite('Diagnostic column index with tab indentation', function () {
     const config = workspace.getConfiguration('phpSniffer', fixtureUri1);
 
     return Promise.all([
-      workspace.fs.writeFile(fixtureUri1, textEncoder.encode('<?php\n\t$foo = TRUE;\n')),
-      workspace.fs.writeFile(fixtureUri2, textEncoder.encode('<?php\n\t$foo\t\t = TRUE\t\t;\n')),
+      workspace.fs.writeFile(
+        fixtureUri1,
+        textEncoder.encode('<?php\n\t$foo = TRUE;\n'),
+      ),
+      workspace.fs.writeFile(
+        fixtureUri2,
+        textEncoder.encode('<?php\n\t$foo\t\t = TRUE\t\t;\n'),
+      ),
       config.update('executablesFolder', './vendor/bin/'),
       config.update('standard', './tab-indent.xml'),
     ]);

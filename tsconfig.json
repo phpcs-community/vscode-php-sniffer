@@ -6,9 +6,5 @@
     "noEmit": true,
     "strict": true
   },
-  "exclude": [
-    ".vscode-test",
-    "node_modules",
-    "test"
-  ]
+  "exclude": [".vscode-test", "node_modules", "test"]
 }

@@ -32,7 +32,7 @@ module.exports = {
         { language: 'php', scheme: 'file' },
         Formatter,
       ),
-      activateGenericFormatter(channel),
+      activateGenericFormatter(),
       createValidator(channel),
     );
   },

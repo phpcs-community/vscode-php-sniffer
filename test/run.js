@@ -1,6 +1,6 @@
-const path = require("path");
-const { execFileSync } = require("child_process");
-const { runTests } = require("@vscode/test-electron");
+const path = require('path');
+const { execFileSync } = require('child_process');
+const { runTests } = require('@vscode/test-electron');
 
 /**
  * Finds the system VS Code executable, for environments (e.g. NixOS) where
@@ -15,7 +15,7 @@ function findSystemVSCode() {
     return process.env.VSCODE_ELECTRON_BINARY_PATH;
   }
   try {
-    const bin = execFileSync("which", ["code"], { encoding: "utf8" }).trim();
+    const bin = execFileSync('which', ['code'], { encoding: 'utf8' }).trim();
     return bin || undefined;
   } catch (e) {
     return undefined;
@@ -24,7 +24,7 @@ function findSystemVSCode() {
 
 async function test() {
   try {
-    const extensionDevelopmentPath = path.resolve(__dirname, "../../");
+    const extensionDevelopmentPath = path.resolve(__dirname, '../../');
 
     const vscodeExecutablePath = findSystemVSCode();
     const baseOptions = vscodeExecutablePath ? { vscodeExecutablePath } : {};
@@ -32,17 +32,17 @@ async function test() {
     await runTests({
       ...baseOptions,
       extensionDevelopmentPath,
-      extensionTestsPath: path.resolve(__dirname, "./integration"),
+      extensionTestsPath: path.resolve(__dirname, './integration'),
       launchArgs: [
-        path.resolve(__dirname, "./integration/integration.code-workspace"),
+        path.resolve(__dirname, './integration/integration.code-workspace'),
       ],
     });
 
     await runTests({
       ...baseOptions,
       extensionDevelopmentPath,
-      extensionTestsPath: path.resolve(__dirname, "./functional"),
-      launchArgs: [path.resolve(__dirname, "./fixtures")],
+      extensionTestsPath: path.resolve(__dirname, './functional'),
+      launchArgs: [path.resolve(__dirname, './fixtures')],
     });
   } catch (err) {
     process.exit(1);

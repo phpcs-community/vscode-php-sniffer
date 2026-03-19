@@ -29,7 +29,7 @@ suite('Report Utilities', function () {
 
     test('A report is flattened correctly', function () {
       // Report taken from PHP_CodeSniffer Github wiki Reports page.
-      // https://github.com/squizlabs/PHP_CodeSniffer/wiki/Reporting#printing-a-json-report
+      // https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Reporting#printing-a-json-report
       const messages = [
         {
           message: 'Missing file doc comment',
@@ -41,7 +41,8 @@ suite('Report Utilities', function () {
           fixable: false,
         },
         {
-          message: 'TRUE, FALSE and NULL must be lowercase; expected \'false\' but found \'FALSE\'',
+          message:
+            "TRUE, FALSE and NULL must be lowercase; expected 'false' but found 'FALSE'",
           source: 'Generic.PHP.LowerCaseConstant.Found',
           severity: 5,
           type: 'ERROR',
@@ -50,7 +51,8 @@ suite('Report Utilities', function () {
           fixable: true,
         },
         {
-          message: 'Line indented incorrectly; expected at least 4 spaces, found 1',
+          message:
+            'Line indented incorrectly; expected at least 4 spaces, found 1',
           source: 'PEAR.WhiteSpace.ScopeIndent.Incorrect',
           severity: 5,
           type: 'ERROR',
@@ -69,7 +71,8 @@ suite('Report Utilities', function () {
         },
         {
           message: 'Inline control structures are discouraged',
-          source: 'Generic.ControlStructures.InlineControlStructure.Discouraged',
+          source:
+            'Generic.ControlStructures.InlineControlStructure.Discouraged',
           severity: 5,
           type: 'WARNING',
           line: 11,
@@ -105,7 +108,10 @@ suite('Report Utilities', function () {
           JSON.stringify(new Range(line - 1, column - 1, line - 1, column - 1)),
         );
         strictEqual(result[index].message, message);
-        strictEqual(result[index].severity, DiagnosticSeverity[type === 'WARNING' ? 'Warning' : 'Error']);
+        strictEqual(
+          result[index].severity,
+          DiagnosticSeverity[type === 'WARNING' ? 'Warning' : 'Error'],
+        );
         strictEqual(result[index].code, source);
       });
     });

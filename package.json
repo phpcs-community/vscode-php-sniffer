@@ -39,6 +39,10 @@
             {
                 "command": "phpSniffer.fixFile",
                 "title": "PHP Sniffer: Fix File"
+            },
+            {
+                "command": "phpSniffer.copyDebugInfo",
+                "title": "PHP Sniffer: Copy Debug Info"
             }
         ],
         "configuration": {

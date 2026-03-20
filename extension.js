@@ -44,14 +44,18 @@ module.exports = {
     const folders = workspace.workspaceFolders;
     if (folders && folders.length > 0 && !context.globalState.get(notifiedKey)) {
       // Check first workspace folder for a config
-      findNearestConfig(folders[0].uri.fsPath).then((configPath) => {
-        if (configPath) {
-          context.globalState.update(notifiedKey, true);
-          window.showInformationMessage(
-            `PHP CodeSniffer: Config detected at ${configPath}. Using project ruleset.`,
-          );
-        }
-      });
+      findNearestConfig(folders[0].uri.fsPath)
+        .then((configPath) => {
+          if (configPath) {
+            context.globalState.update(notifiedKey, true);
+            window.showInformationMessage(
+              `PHP CodeSniffer: Config detected at ${configPath}. Using project ruleset.`,
+            );
+          }
+        })
+        .catch(() => {
+          // Non-critical onboarding check — ignore errors silently
+        });
     }
   },
 };

@@ -52,6 +52,12 @@
                     "minimum": 0,
                     "markdownDescription": "When `#phpSniffer.run#` is `onType`, this sets the amount of milliseconds the validator will wait after typing has stopped before it will run."
                 },
+                "phpSniffer.maxConcurrentProcesses": {
+                    "type": "number",
+                    "default": 4,
+                    "minimum": 0,
+                    "markdownDescription": "Maximum number of concurrent `phpcs` processes. Set to `0` for unlimited."
+                },
                 "phpSniffer.extraFiles": {
                     "type": "array",
                     "uniqueItems": true,

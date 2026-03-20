@@ -86,6 +86,23 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Disable sniffing when any debug session is active."
+                },
+                "phpSniffer.logLevel": {
+                    "type": "string",
+                    "default": "error",
+                    "enum": [
+                        "off",
+                        "error",
+                        "info",
+                        "debug"
+                    ],
+                    "enumDescriptions": [
+                        "Disable all logging.",
+                        "Log errors only.",
+                        "Log errors and informational messages.",
+                        "Log everything including PHPCS commands and arguments."
+                    ],
+                    "description": "Controls the verbosity of the PHP CodeSniffer output channel."
                 }
             }
         }

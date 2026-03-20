@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Outputs PHP_Codesniffer's resolved tabWidth.
+ * Outputs PHP_CodeSniffer's resolved tabWidth to stderr.
  *
- * Designed for use with --report=json. Needs an extra closing curly brace '}'
- * after output to be able to be decoded as json.
+ * Writing to stderr keeps stdout clean for PHPCS's own JSON report,
+ * so the runner can parse each stream independently.
  */
 
-printf(
-  '{ "vscodeOptions": { "tabWidth": %d }, "result": ',
+fprintf(
+  STDERR,
+  '{"tabWidth":%d}',
   $this->config->tabWidth ? intval($this->config->tabWidth) : 1
 );

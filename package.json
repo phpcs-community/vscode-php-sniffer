@@ -98,6 +98,13 @@
                     "minimum": 0,
                     "markdownDescription": "Maximum file size in kilobytes to lint. Files larger than this will be skipped. Set to `0` to disable the limit."
                 },
+                "phpSniffer.timeout": {
+                    "scope": "resource",
+                    "type": "number",
+                    "default": 30,
+                    "minimum": 0,
+                    "markdownDescription": "Maximum time in seconds to wait for `phpcs`/`phpcbf` before killing the process. Set to `0` to disable."
+                },
                 "phpSniffer.logLevel": {
                     "type": "string",
                     "default": "error",

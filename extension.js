@@ -9,7 +9,7 @@ const {
   activateGenericFormatter,
 } = require('./lib/formatter');
 const { createValidator } = require('./lib/validator');
-const { registerCommands } = require('./lib/commands');
+const { registerCommands, setPhpcsVersion } = require('./lib/commands');
 const { findNearestConfig, resolveExecutableFolderCached, detectPhpcsVersion } = require('./lib/resolver');
 const { log } = require('./lib/logger');
 
@@ -48,6 +48,7 @@ module.exports = {
     resolveExecutableFolderCached(firstConfig, firstFolder)
       .then((folder) => detectPhpcsVersion(folder))
       .then((version) => {
+        setPhpcsVersion(version);
         if (version) {
           log(channel, 'info', `PHP CodeSniffer version ${version} detected`);
         }

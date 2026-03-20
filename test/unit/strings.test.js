@@ -212,5 +212,14 @@ baz
       '\ttext',
       { insertSpaces: false, tabSize: 1 },
     );
+
+    test('All empty lines should not throw RangeError', async function () {
+      const format = { insertSpaces: true, tabSize: 2 };
+      const emptyLineSnippet = '\n\n\n';
+      const mockProcessor = async (input) => input;
+      // Should not throw RangeError: Invalid string length
+      const result = await processSnippet(emptyLineSnippet, format, mockProcessor);
+      strictEqual(typeof result, 'string', 'Result should be a string');
+    });
   });
 });

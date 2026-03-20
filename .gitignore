@@ -3,3 +3,4 @@
 *.vsix
 test/**/vendor
 !test/integration/fixtures/auto/vendor
+/.worktrees/

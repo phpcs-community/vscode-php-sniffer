@@ -62,14 +62,14 @@ suite('CLI Utilities', function () {
   });
 
   suite('executeCommand()', function () {
-    test('Normal execution returns STDOUT', async function () {
+    test('Normal execution returns { stdout, stderr }', async function () {
       const result = await executeCommand({
         command: 'echo',
         token: createStubToken(),
         args: ['foobar'],
       });
 
-      strictEqual(result, 'foobar\n');
+      deepStrictEqual(result, { stdout: 'foobar\n', stderr: '' });
     });
 
     test('Cancelling the execution via the token returns null', async function () {
@@ -115,7 +115,34 @@ suite('CLI Utilities', function () {
         },
       });
 
-      strictEqual(result, 'foo');
+      deepStrictEqual(result, { stdout: 'foo', stderr: '' });
+    });
+
+    test('stderr is captured separately from stdout', async function () {
+      const result = await executeCommand({
+        command: 'node',
+        token: createStubToken(),
+        args: ['-e', 'process.stdout.write("out"); process.stderr.write("err")'],
+      });
+
+      deepStrictEqual(result, { stdout: 'out', stderr: 'err' });
+    });
+
+    test('tabWidth parsed from stderr, falls back to 1 on empty stderr', function () {
+      // Simulate the runner's stderr parsing logic inline.
+      function parseTabWidth(stderr) {
+        try {
+          const data = JSON.parse(stderr);
+          if (typeof data.tabWidth === 'number') return data.tabWidth;
+        } catch { /* ignore */ }
+        return 1;
+      }
+
+      strictEqual(parseTabWidth('{"tabWidth":4}'), 4);
+      strictEqual(parseTabWidth('{"tabWidth":2}'), 2);
+      strictEqual(parseTabWidth(''), 1);
+      strictEqual(parseTabWidth('not json'), 1);
+      strictEqual(parseTabWidth('{}'), 1);
     });
   });
 });

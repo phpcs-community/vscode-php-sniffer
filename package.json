@@ -27,6 +27,20 @@
     ],
     "main": "./extension",
     "contributes": {
+        "commands": [
+            {
+                "command": "phpSniffer.showOutput",
+                "title": "PHP Sniffer: Show Output Channel"
+            },
+            {
+                "command": "phpSniffer.runLint",
+                "title": "PHP Sniffer: Run Lint"
+            },
+            {
+                "command": "phpSniffer.fixFile",
+                "title": "PHP Sniffer: Fix File"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "PHP Sniffer",

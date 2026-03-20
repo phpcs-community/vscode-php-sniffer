@@ -9,6 +9,7 @@ const {
   activateGenericFormatter,
 } = require('./lib/formatter');
 const { createValidator } = require('./lib/validator');
+const { registerCommands } = require('./lib/commands');
 
 module.exports = {
   /**
@@ -34,6 +35,7 @@ module.exports = {
       ),
       activateGenericFormatter(channel),
       createValidator(channel),
+      registerCommands(channel),
     );
   },
 };

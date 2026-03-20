@@ -10,7 +10,8 @@ const {
 } = require('./lib/formatter');
 const { createValidator } = require('./lib/validator');
 const { registerCommands } = require('./lib/commands');
-const { findNearestConfig } = require('./lib/resolver');
+const { findNearestConfig, resolveExecutableFolderCached, detectPhpcsVersion } = require('./lib/resolver');
+const { log } = require('./lib/logger');
 
 module.exports = {
   /**
@@ -38,6 +39,20 @@ module.exports = {
       createValidator(channel),
       registerCommands(channel),
     );
+
+    // Detect and log PHPCS version at activation
+    const firstFolder = workspace.workspaceFolders?.[0];
+    const firstConfig = firstFolder
+      ? workspace.getConfiguration('phpSniffer', firstFolder.uri)
+      : workspace.getConfiguration('phpSniffer');
+    resolveExecutableFolderCached(firstConfig, firstFolder)
+      .then((folder) => detectPhpcsVersion(folder))
+      .then((version) => {
+        if (version) {
+          log(channel, 'info', `PHP CodeSniffer version ${version} detected`);
+        }
+      })
+      .catch(() => {});
 
     // Detect PHPCS config and show one-time info message
     const notifiedKey = 'phpSniffer.configDetectedNotified';

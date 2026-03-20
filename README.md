@@ -5,7 +5,7 @@
 # PHP_CodeSniffer Community
 
 [![PHP Sniffer on the Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/phpcscommunity.php-codesniffer?label=VS%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=phpcscommunity.php-codesniffer)
-[![PHP Sniffer on Open VSX](https://img.shields.io/open-vsx/v/phpcs-community/php-codesniffer?label=Open%20VSX)](https://open-vsx.org/extension/phpcs-community/php-codesniffer)
+[![PHP Sniffer on Open VSX](https://img.shields.io/open-vsx/v/phpcscommunity/php-codesniffer?label=Open%20VSX)](https://open-vsx.org/extension/phpcscommunity/php-codesniffer)
 
 Uses [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer) to format
 and lint (mainly) PHP code.

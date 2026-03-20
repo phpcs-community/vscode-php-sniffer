@@ -19,7 +19,11 @@
         "phpcbf"
     ],
     "activationEvents": [
-        "onStartupFinished"
+        "onLanguage:php",
+        "workspaceContains:**/phpcs.xml",
+        "workspaceContains:**/.phpcs.xml",
+        "workspaceContains:**/phpcs.xml.dist",
+        "workspaceContains:**/.phpcs.xml.dist"
     ],
     "main": "./extension",
     "contributes": {
@@ -86,6 +90,13 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Disable sniffing when any debug session is active."
+                },
+                "phpSniffer.maxFileSize": {
+                    "scope": "resource",
+                    "type": "number",
+                    "default": 0,
+                    "minimum": 0,
+                    "markdownDescription": "Maximum file size in kilobytes to lint. Files larger than this will be skipped. Set to `0` to disable the limit."
                 },
                 "phpSniffer.logLevel": {
                     "type": "string",

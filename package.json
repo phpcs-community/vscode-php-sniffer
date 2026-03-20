@@ -114,6 +114,11 @@
                         "Log everything including PHPCS commands and arguments."
                     ],
                     "description": "Controls the verbosity of the PHP CodeSniffer output channel."
+                },
+                "phpSniffer.showOutputOnError": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Automatically reveal the PHP CodeSniffer output channel when an error occurs."
                 }
             }
         }

@@ -47,7 +47,7 @@ module.exports = {
       workspace.onWillSaveTextDocument((event) => {
         const { document } = event;
         if (document.languageId !== 'php' || document.uri.scheme !== 'file') return;
-        if (!workspace.getConfiguration('phpSniffer').get('fixOnSave', false)) return;
+        if (!workspace.getConfiguration('phpSniffer', document.uri).get('fixOnSave', false)) return;
 
         const cts = new CancellationTokenSource();
         const cancelTimer = setTimeout(() => cts.cancel(), 1200);

@@ -2,7 +2,7 @@
     "name": "php-codesniffer",
     "displayName": "PHP_CodeSniffer Community",
     "description": "Community-maintained VS Code extension for PHP_CodeSniffer — real-time linting and auto-fix for PHP, powered by phpcs and phpcbf.",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "engines": {
         "vscode": "^1.90.0"
     },
@@ -25,7 +25,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/phpcs-community/vscode-php-sniffer.git"
+        "url": "https://github.com/phpcs-community/vscode-php-sniffer"
     },
     "homepage": "https://github.com/phpcs-community/vscode-php-sniffer#readme",
     "bugs": {
@@ -213,13 +213,6 @@
                 }
             }
         }
-    },
-    "bugs": {
-        "url": "https://github.com/phpcs-community/vscode-php-sniffer/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/phpcs-community/vscode-php-sniffer"
     },
     "scripts": {
         "format": "prettier --write .",

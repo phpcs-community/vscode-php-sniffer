@@ -2,6 +2,13 @@
 
 All notable changes to the "PHP Sniffer & Beautifier" extension will be documented in this file.
 
+## [2.0.2](https://github.com/phpcs-community/vscode-php-sniffer/compare/v2.0.1...v2.0.2) (2026-03-21)
+
+
+### Bug Fixes
+
+* correct extension description and add marketplace metadata ([c3ecbb3](https://github.com/phpcs-community/vscode-php-sniffer/commit/c3ecbb324a0260a5447e092dd88358eecf39bddf))
+
 ## [2.0.1](https://github.com/phpcs-community/vscode-php-sniffer/compare/v2.0.0...v2.0.1) (2026-03-21)
 
 

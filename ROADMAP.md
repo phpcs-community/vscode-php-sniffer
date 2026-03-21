@@ -38,14 +38,13 @@
 - Ecosystem conflict detection (PHP CS Fixer)
 - PHPCS v3/v4 version-aware activation
 
-## Planned
-
 ### Phase 5 — Documentation & Community
-- [ ] README rewrite with full feature docs
-- [ ] CONTRIBUTING.md
-- [ ] GitHub Actions CI
-- [ ] Migration guide
-- [ ] ROADMAP
+- Full README rewrite with feature docs, quick start, debugging, migration guide
+- CONTRIBUTING.md with dev setup and project structure
+- GitHub Actions CI (Node 18/20 matrix)
+- ROADMAP.md
+
+## Planned
 
 ### Future Ideas
 - Integration tests with real PHPCS binary

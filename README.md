@@ -150,16 +150,18 @@ If linting is not working as expected:
 - The content of your `phpcs.xml` or relevant `settings.json` entries
 - The full output from the output channel with `logLevel` set to `debug`
 
-## Why This Fork?
+## Origins & Credits
 
-[wongjn/vscode-php-sniffer](https://github.com/wongjn/vscode-php-sniffer) is no longer actively maintained. This community fork was created to:
+This extension began as a fork of [wongjn/vscode-php-sniffer](https://github.com/wongjn/vscode-php-sniffer), created by [wongjn](https://github.com/wongjn). The original work laid the foundation for everything here, and we are grateful for it.
+
+When the original repository became unmaintained, the PHP community took over to:
 
 - Keep the extension working with current VS Code versions (1.90+) and PHPCS v3/v4
 - Fix outstanding bugs from the original repository
 - Add features the PHP community needs: code actions, hover documentation, fix-on-save, diff preview, status bar, structured logging, multi-root workspace support, and more
 - Provide a stable, maintained extension going forward
 
-The PHP community now maintains this extension under [phpcs-community/vscode-php-sniffer](https://github.com/phpcs-community/vscode-php-sniffer).
+The project has since grown into a fully independent extension, maintained by the community under [phpcs-community/vscode-php-sniffer](https://github.com/phpcs-community/vscode-php-sniffer).
 
 ## Migration from wongjn/vscode-php-sniffer
 

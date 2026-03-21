@@ -4,15 +4,26 @@
  * Fake PHPCS executable for tests.
  */
 
-const getStdin = require('get-stdin');
+function getStdin() {
+  return new Promise((resolve) => {
+    const chunks = [];
+    process.stdin.on('data', (chunk) => chunks.push(chunk));
+    process.stdin.on('end', () => resolve(Buffer.concat(chunks).toString()));
+    if (process.stdin.isTTY) resolve('');
+  });
+}
 
 getStdin()
   .then((stdin) => {
+    // Output a valid phpcs JSON report with embedded test data (arg, stdin)
+    // so the runner can parse it and tests can verify args were passed correctly.
     console.log(
-      JSON.stringify({ arg: process.argv.slice(1).join(' '), stdin }).slice(
-        0,
-        -1,
-      ),
+      JSON.stringify({
+        totals: { errors: 0, warnings: 0, fixable: 0 },
+        files: {},
+        arg: process.argv.slice(1).join(' '),
+        stdin,
+      }),
     );
   })
   .finally(() => process.exit(0));

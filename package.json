@@ -146,6 +146,11 @@
                     ],
                     "description": "Controls the verbosity of the PHP CodeSniffer output channel."
                 },
+                "phpSniffer.fixOnSave": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Automatically fix PHP files with PHPCBF when saving."
+                },
                 "phpSniffer.showOutputOnError": {
                     "type": "boolean",
                     "default": true,

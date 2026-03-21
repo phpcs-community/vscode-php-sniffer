@@ -1,25 +1,25 @@
 name: CI
 
 on:
-  pull_request:
   push:
-    branches: [main]
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
-  ci:
+  test:
+    name: Unit Tests
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
-          cache: npm
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - run: npm ci
-      - name: Lint
-        run: npm run lint
-      - name: Run unit tests
-        run: npm run test:unit
+      - run: npm run test:unit

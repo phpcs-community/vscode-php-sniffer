@@ -45,6 +45,27 @@
                 "title": "PHP Sniffer: Copy Debug Info"
             }
         ],
+        "problemMatchers": [
+            {
+                "name": "phpcs",
+                "label": "PHP CodeSniffer",
+                "owner": "phpcs",
+                "fileLocation": ["relative", "${cwd}"],
+                "pattern": [
+                    {
+                        "regexp": "^FILE: (.+)$",
+                        "file": 1
+                    },
+                    {
+                        "regexp": "^\\s*(\\d+)\\s+\\|\\s+(ERROR|WARNING)\\s+\\|\\s+(.+)$",
+                        "line": 1,
+                        "severity": 2,
+                        "message": 3,
+                        "loop": true
+                    }
+                ]
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "PHP Sniffer",

@@ -13,6 +13,7 @@ const { registerCommands, setPhpcsVersion } = require('./lib/commands');
 const { createCodeActionProvider } = require('./lib/code-actions');
 const { createHoverProvider } = require('./lib/hover-provider');
 const { findNearestConfig, resolveExecutableFolderCached, detectPhpcsVersion } = require('./lib/resolver');
+const { parseMajorVersion } = require('./lib/version');
 const { log } = require('./lib/logger');
 const { createRunner } = require('./lib/runner');
 
@@ -107,6 +108,12 @@ module.exports = {
         setPhpcsVersion(version);
         if (version) {
           log(channel, 'info', `PHP CodeSniffer version ${version} detected`);
+          const major = parseMajorVersion(version);
+          if (major >= 4) {
+            log(channel, 'info', 'PHP CodeSniffer v4 detected. Running in compatibility mode (v4 support is experimental).');
+          } else if (major === 3) {
+            log(channel, 'info', 'PHP CodeSniffer v3 detected.');
+          }
         }
       })
       .catch(() => {});

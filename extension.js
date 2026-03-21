@@ -3,7 +3,7 @@
  * Extension entry.
  */
 
-const { languages, window, workspace, CodeActionKind, CancellationTokenSource, TextEdit, Range, Position } = require('vscode');
+const { extensions, languages, window, workspace, CodeActionKind, CancellationTokenSource, TextEdit, Range, Position } = require('vscode');
 const {
   createFormatter,
   activateGenericFormatter,
@@ -27,6 +27,19 @@ module.exports = {
     const channel = window.createOutputChannel('PHP CodeSniffer');
 
     const { Formatter, PhpDocumentFormatter } = createFormatter(channel);
+
+    const CONFLICTING_FORMATTERS = [
+      'junstyle.php-cs-fixer',
+      'bmewburn.vscode-intelephense-client',
+      'nickmitchko.php-fixer-formatter',
+    ];
+    const hasConflict = CONFLICTING_FORMATTERS.some(
+      (id) => extensions.getExtension(id)?.isActive,
+    );
+
+    if (hasConflict) {
+      log(channel, 'info', 'Skipping formatter registration: conflicting PHP formatter extension detected');
+    }
 
     context.subscriptions.push(
       channel,
@@ -58,10 +71,10 @@ module.exports = {
             }),
         );
       }),
-      languages.registerDocumentFormattingEditProvider(
+      ...(hasConflict ? [] : [languages.registerDocumentFormattingEditProvider(
         { language: 'php', scheme: 'file' },
         PhpDocumentFormatter,
-      ),
+      )]),
       languages.registerDocumentRangeFormattingEditProvider(
         { language: 'php', scheme: 'file' },
         Formatter,

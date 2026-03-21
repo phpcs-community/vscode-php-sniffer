@@ -7,6 +7,21 @@
 [![CI](https://github.com/phpcs-community/vscode-php-sniffer/actions/workflows/ci.yml/badge.svg)](https://github.com/phpcs-community/vscode-php-sniffer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Table of Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
+- [Commands](#commands)
+- [Problem Matcher](#problem-matcher)
+- [Known Limitations](#known-limitations)
+- [Debugging](#debugging)
+- [Origins & Credits](#origins--credits)
+- [Migration from wongjn/vscode-php-sniffer](#migration-from-wongjnvscode-php-sniffer)
+- [Community](#community)
+- [License](#license)
+
 ## Features
 
 - **Real-time linting** — runs `phpcs` on save or as you type, surfacing errors and warnings in the Problems panel and inline with squiggles.

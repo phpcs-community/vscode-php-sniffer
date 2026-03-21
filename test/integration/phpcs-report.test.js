@@ -102,18 +102,25 @@ suite('Report Utilities', function () {
       const result = reportFlatten(report, 'a\n'.repeat(10));
       strictEqual(result.length, 5);
 
-      messages.forEach(({ line, column, source, message, type, fixable }, index) => {
-        strictEqual(
-          JSON.stringify(result[index].range),
-          JSON.stringify(new Range(line - 1, column - 1, line - 1, column - 1)),
-        );
-        strictEqual(result[index].message, fixable ? `${message} [fixable]` : message);
-        strictEqual(
-          result[index].severity,
-          DiagnosticSeverity[type === 'WARNING' ? 'Warning' : 'Error'],
-        );
-        strictEqual(result[index].code, source);
-      });
+      messages.forEach(
+        ({ line, column, source, message, type, fixable }, index) => {
+          strictEqual(
+            JSON.stringify(result[index].range),
+            JSON.stringify(
+              new Range(line - 1, column - 1, line - 1, column - 1),
+            ),
+          );
+          strictEqual(
+            result[index].message,
+            fixable ? `${message} [fixable]` : message,
+          );
+          strictEqual(
+            result[index].severity,
+            DiagnosticSeverity[type === 'WARNING' ? 'Warning' : 'Error'],
+          );
+          strictEqual(result[index].code, source);
+        },
+      );
     });
 
     suite('Tabbed text position', function () {

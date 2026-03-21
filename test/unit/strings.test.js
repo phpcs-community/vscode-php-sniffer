@@ -218,7 +218,11 @@ baz
       const emptyLineSnippet = '\n\n\n';
       const mockProcessor = async (input) => input;
       // Should not throw RangeError: Invalid string length
-      const result = await processSnippet(emptyLineSnippet, format, mockProcessor);
+      const result = await processSnippet(
+        emptyLineSnippet,
+        format,
+        mockProcessor,
+      );
       strictEqual(typeof result, 'string', 'Result should be a string');
     });
   });

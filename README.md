@@ -43,7 +43,11 @@
 
 - VS Code **1.90** or newer
 - [PHP](https://php.net) available on the system
-- [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer) **v3 or v4**, installed globally or via Composer
+- [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer) installed globally or via Composer:
+  - **v3.9+** — recommended for PHP 7.x or PHP 8.x
+  - **v4.0+** — requires PHP 8.1 or newer
+
+  Older v3.x releases (3.3–3.8) may work on PHP 7.x but are not tested. phpcs 3.x is incompatible with PHP 8 starting around 3.4–3.8 due to removed syntax.
 
 ## Quick Start
 

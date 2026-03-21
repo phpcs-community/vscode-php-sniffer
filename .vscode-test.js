@@ -26,6 +26,7 @@ module.exports = defineConfig([
     workspaceFolder: './test/integration/integration.code-workspace',
     files: 'test/integration/*.test.js',
     mocha: { ui: 'tdd', timeout: 10000 },
+    launchArgs: ['--disable-extensions'],
     ...(useInstallation && { useInstallation }),
   },
   {
@@ -33,6 +34,7 @@ module.exports = defineConfig([
     workspaceFolder: './test/fixtures',
     files: 'test/functional/*.test.js',
     mocha: { ui: 'tdd', timeout: 10000 },
+    launchArgs: ['--disable-extensions'],
     ...(useInstallation && { useInstallation }),
   },
 ]);

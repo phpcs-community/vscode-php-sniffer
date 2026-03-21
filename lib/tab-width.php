@@ -8,7 +8,7 @@
  */
 
 fprintf(
-  STDERR,
-  '{"tabWidth":%d}',
-  $this->config->tabWidth ? intval($this->config->tabWidth) : 1
+    STDERR,
+    '{"tabWidth":%d}',
+    $this->config->tabWidth ? intval($this->config->tabWidth) : 1
 );

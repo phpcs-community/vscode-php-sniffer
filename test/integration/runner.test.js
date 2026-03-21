@@ -110,25 +110,25 @@ suite('Runner', function () {
           const run = createRunner(new CancellationTokenSource().token, a);
           const stdin = String(Math.random());
 
-          assert.strictEqual((await run.phpcs(stdin)).stdin, stdin);
+          assert.strictEqual((await run.phpcs(stdin)).result.stdin, stdin);
         });
 
         test('Args are passed through', async function () {
           const run = createRunner(new CancellationTokenSource().token, a);
           const result = await run.phpcs('a');
 
-          assert(result.arg.includes(` --stdin-path=${a.fsPath} `));
-          assert(result.arg.includes(' --report=json '));
-          assert(result.arg.includes(' --standard=A-Standard '));
-          assert(result.arg.includes(' --bootstrap='));
+          assert(result.result.arg.includes(` --stdin-path=${a.fsPath} `));
+          assert(result.result.arg.includes(' --report=json '));
+          assert(result.result.arg.includes(' --standard=A-Standard '));
+          assert(result.result.arg.includes(' --bootstrap='));
           assert(
-            result.arg.includes(' --runtime-set ignore_warnings_on_exit 1 '),
+            result.result.arg.includes(' --runtime-set ignore_warnings_on_exit 1 '),
           );
           assert(
-            result.arg.includes(' --runtime-set ignore_errors_on_exit 1 '),
+            result.result.arg.includes(' --runtime-set ignore_errors_on_exit 1 '),
           );
-          assert(result.arg.includes(' -q '));
-          assert(result.arg.endsWith(' -'));
+          assert(result.result.arg.includes(' -q '));
+          assert(result.result.arg.endsWith(' -'));
         });
       });
 
@@ -284,17 +284,17 @@ suite('Runner', function () {
 
       test('Main document', async function () {
         const run = createRunner(new CancellationTokenSource().token, a);
-        assert((await run.phpcs('a')).arg.includes('--standard=A-Standard'));
+        assert((await run.phpcs('a')).result.arg.includes('--standard=A-Standard'));
       });
 
       test('Document in a subfolder', async function () {
         const run = createRunner(new CancellationTokenSource().token, b);
-        assert((await run.phpcs('b')).arg.includes('--standard=B-Standard'));
+        assert((await run.phpcs('b')).result.arg.includes('--standard=B-Standard'));
       });
 
       test('Document in a secondary workspace folder', async function () {
         const run = createRunner(new CancellationTokenSource().token, c);
-        assert((await run.phpcs('c')).arg.includes('--standard=C-Standard'));
+        assert((await run.phpcs('c')).result.arg.includes('--standard=C-Standard'));
       });
     });
 
@@ -335,7 +335,7 @@ suite('Runner', function () {
             new CancellationTokenSource().token,
             subjectUri,
           );
-          assert.strictEqual((await run.phpcs('Foo')).CALLED, 'THIS');
+          assert.strictEqual((await run.phpcs('Foo')).result.CALLED, 'THIS');
         });
       });
 

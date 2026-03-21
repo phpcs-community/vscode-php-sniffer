@@ -3,7 +3,7 @@
  * Extension entry.
  */
 
-const { languages, window, workspace, CodeActionKind } = require('vscode');
+const { languages, window, workspace, CodeActionKind, CancellationTokenSource, TextEdit, Range, Position } = require('vscode');
 const {
   createFormatter,
   activateGenericFormatter,
@@ -13,6 +13,7 @@ const { registerCommands, setPhpcsVersion } = require('./lib/commands');
 const { createCodeActionProvider } = require('./lib/code-actions');
 const { findNearestConfig, resolveExecutableFolderCached, detectPhpcsVersion } = require('./lib/resolver');
 const { log } = require('./lib/logger');
+const { createRunner } = require('./lib/runner');
 
 module.exports = {
   /**
@@ -28,6 +29,26 @@ module.exports = {
 
     context.subscriptions.push(
       channel,
+      workspace.onWillSaveTextDocument((event) => {
+        const { document } = event;
+        if (document.languageId !== 'php' || document.uri.scheme !== 'file') return;
+        if (!workspace.getConfiguration('phpSniffer').get('fixOnSave', false)) return;
+
+        const cts = new CancellationTokenSource();
+        const runner = createRunner(cts.token, document.uri, true, channel);
+        const original = document.getText();
+
+        event.waitUntil(
+          runner.phpcbf(original)
+            .then((fixedText) => {
+              if (fixedText == null || fixedText === original) return [];
+              const lastLine = document.lineAt(document.lineCount - 1);
+              const fullRange = new Range(new Position(0, 0), lastLine.range.end);
+              return [TextEdit.replace(fullRange, fixedText)];
+            })
+            .finally(() => cts.dispose()),
+        );
+      }),
       languages.registerDocumentFormattingEditProvider(
         { language: 'php', scheme: 'file' },
         PhpDocumentFormatter,

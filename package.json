@@ -50,14 +50,14 @@
                 "name": "phpcs",
                 "label": "PHP CodeSniffer",
                 "owner": "phpcs",
-                "fileLocation": ["relative", "${cwd}"],
+                "fileLocation": "absolute",
                 "pattern": [
                     {
                         "regexp": "^FILE: (.+)$",
                         "file": 1
                     },
                     {
-                        "regexp": "^\\s*(\\d+)\\s+\\|\\s+(ERROR|WARNING)\\s+\\|\\s+(.+)$",
+                        "regexp": "^\\s*(\\d+)\\s+\\|\\s+(ERROR|WARNING)\\s+\\|\\s+(?:\\[x\\]\\s+)?(.+)$",
                         "line": 1,
                         "severity": 2,
                         "message": 3,

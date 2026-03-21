@@ -42,6 +42,8 @@ module.exports = {
       log(channel, 'info', 'Skipping formatter registration: conflicting PHP formatter extension detected');
     }
 
+    const validator = createValidator(channel);
+
     context.subscriptions.push(
       channel,
       workspace.onWillSaveTextDocument((event) => {
@@ -81,16 +83,12 @@ module.exports = {
         Formatter,
       ),
       activateGenericFormatter(channel),
-      registerCommands(channel),
+      registerCommands(channel, validator.diagnostics),
       languages.registerCodeActionsProvider(
         { language: 'php', scheme: 'file' },
         createCodeActionProvider(),
         { providedCodeActionKinds: [CodeActionKind.QuickFix] },
       ),
-    );
-
-    const validator = createValidator(channel);
-    context.subscriptions.push(
       validator,
       languages.registerHoverProvider(
         { language: 'php', scheme: 'file' },

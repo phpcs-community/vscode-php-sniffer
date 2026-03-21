@@ -2,6 +2,13 @@
 
 All notable changes to the "PHP Sniffer & Beautifier" extension will be documented in this file.
 
+## [2.0.1](https://github.com/phpcs-community/vscode-php-sniffer/compare/v2.0.0...v2.0.1) (2026-03-21)
+
+
+### Bug Fixes
+
+* use plain v{version} tag format for release-please ([9650f69](https://github.com/phpcs-community/vscode-php-sniffer/commit/9650f696c31b4a57f3558e18058c9d6b9c4a8aa3))
+
 ## [2.0.0](https://github.com/phpcs-community/vscode-php-sniffer/compare/php-codesniffer-v1.5.0...php-codesniffer-v2.0.0) (2026-03-21)
 
 

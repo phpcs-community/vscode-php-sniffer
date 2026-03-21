@@ -20,7 +20,7 @@
 - **Executable auto-detection** — automatically finds `vendor/bin/phpcs` by walking up from the open file, so per-project installs work with zero configuration.
 - **Per-file config resolution** — the nearest `phpcs.xml` / `.phpcs.xml` / `phpcs.xml.dist` file is used automatically.
 - **Multi-root workspace support** — each workspace folder can have its own `phpSniffer.*` settings.
-- **`.phpcsignore` support** — files matching ignore patterns are silently skipped.
+- **`.phpcsignore` support** — files matching ignore patterns are silently skipped (all versions). Files excluded via `phpcs.xml` `<exclude-pattern>` are also skipped efficiently on PHPCS v4; on v3 they are handled correctly but without the skip-cache optimisation (see [Known Limitations](#known-limitations)).
 - **`$phpcs` problem matcher** — a built-in problem matcher for use in VS Code task definitions.
 - **PHPCS version detection** — logs the detected PHPCS version (v3 or v4) at activation.
 
@@ -35,14 +35,19 @@
 1. **Install the extension** from the VS Code Marketplace (search for `PHP_CodeSniffer Community` or publisher `phpcscommunity`).
 
 2. **Install PHP_CodeSniffer** — globally:
+
    ```bash
    composer global require squizlabs/php_codesniffer
    ```
+
    or as a project dependency:
+
    ```bash
    composer require --dev squizlabs/php_codesniffer
    ```
+
    When installed as a project dependency, enable auto-detection so the extension finds it automatically:
+
    ```json
    { "phpSniffer.autoDetect": true }
    ```
@@ -50,6 +55,7 @@
 3. **Open a PHP file** — diagnostics appear in the Problems panel immediately. That is all the setup needed for most projects.
 
 To set this extension as the default PHP formatter (required for Format Document to use PHPCBF):
+
 ```json
 {
   "[php]": {
@@ -62,35 +68,35 @@ To set this extension as the default PHP formatter (required for Format Document
 
 All settings are prefixed with `phpSniffer.` and can be set at user, workspace, or folder level unless noted.
 
-| Setting | Type | Default | Description |
-|---|---|---|---|
-| `phpSniffer.run` | `string` | `"onSave"` | When to run `phpcs`. One of `onSave`, `onType`, or `never`. |
-| `phpSniffer.onTypeDelay` | `number` | `250` | Milliseconds to wait after typing stops before running `phpcs` (only when `run` is `onType`). |
-| `phpSniffer.executablesFolder` | `string` | `""` | Folder containing the `phpcs` and `phpcbf` executables. Can be absolute or relative to the workspace folder. Leave empty to use `$PATH` or auto-detection. |
-| `phpSniffer.autoDetect` | `boolean` | `false` | Automatically detect `vendor/bin/` as the executables folder per workspace folder. Only applies when `executablesFolder` is empty. |
-| `phpSniffer.standard` | `string` | `""` | Coding standard passed to `phpcs`/`phpcbf` as `--standard`. Can be a standard name or a path to a ruleset file (absolute or relative to the workspace). If empty, PHPCS searches for a config file automatically. |
-| `phpSniffer.extraFiles` | `array` | `[]` | Glob patterns for non-PHP file types the extension should lint (e.g. for standards that validate `.inc` files). PHP files are always included. |
-| `phpSniffer.snippetExcludeSniffs` | `array` | `[]` | Sniffs to pass as `--exclude` when formatting a selection or snippet (not a whole file). |
-| `phpSniffer.disableWhenDebugging` | `boolean` | `false` | Pause linting while a debug session is active. Scoped to machine. |
-| `phpSniffer.logLevel` | `string` | `"error"` | Output channel verbosity. One of `off`, `error`, `info`, or `debug`. Use `debug` to log full PHPCS commands and arguments. |
-| `phpSniffer.showOutputOnError` | `boolean` | `true` | Automatically reveal the output channel when an error occurs. |
-| `phpSniffer.fixOnSave` | `boolean` | `false` | Run `phpcbf` automatically on every file save. |
-| `phpSniffer.previewFix` | `boolean` | `false` | Show a diff preview of PHPCBF changes before applying them. |
-| `phpSniffer.timeout` | `number` | `30` | Seconds before a `phpcs`/`phpcbf` process is killed. Set to `0` to disable. |
-| `phpSniffer.maxConcurrentProcesses` | `number` | `4` | Maximum number of concurrent `phpcs` processes. Set to `0` for unlimited. |
-| `phpSniffer.maxFileSize` | `number` | `0` | Skip files larger than this value in kilobytes. Set to `0` to disable the limit. |
-| `phpSniffer.workingDirectory` | `string` | `"auto"` | Working directory for PHPCS processes. One of `auto` (use the workspace folder root, or the file's directory if no workspace is open), `workspaceRoot`, or `fileDir`. |
+| Setting                             | Type      | Default    | Description                                                                                                                                                                                                       |
+| ----------------------------------- | --------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `phpSniffer.run`                    | `string`  | `"onSave"` | When to run `phpcs`. One of `onSave`, `onType`, or `never`.                                                                                                                                                       |
+| `phpSniffer.onTypeDelay`            | `number`  | `250`      | Milliseconds to wait after typing stops before running `phpcs` (only when `run` is `onType`).                                                                                                                     |
+| `phpSniffer.executablesFolder`      | `string`  | `""`       | Folder containing the `phpcs` and `phpcbf` executables. Can be absolute or relative to the workspace folder. Leave empty to use `$PATH` or auto-detection.                                                        |
+| `phpSniffer.autoDetect`             | `boolean` | `false`    | Automatically detect `vendor/bin/` as the executables folder per workspace folder. Only applies when `executablesFolder` is empty.                                                                                |
+| `phpSniffer.standard`               | `string`  | `""`       | Coding standard passed to `phpcs`/`phpcbf` as `--standard`. Can be a standard name or a path to a ruleset file (absolute or relative to the workspace). If empty, PHPCS searches for a config file automatically. |
+| `phpSniffer.extraFiles`             | `array`   | `[]`       | Glob patterns for non-PHP file types the extension should lint (e.g. for standards that validate `.inc` files). PHP files are always included.                                                                    |
+| `phpSniffer.snippetExcludeSniffs`   | `array`   | `[]`       | Sniffs to pass as `--exclude` when formatting a selection or snippet (not a whole file).                                                                                                                          |
+| `phpSniffer.disableWhenDebugging`   | `boolean` | `false`    | Pause linting while a debug session is active. Scoped to machine.                                                                                                                                                 |
+| `phpSniffer.logLevel`               | `string`  | `"error"`  | Output channel verbosity. One of `off`, `error`, `info`, or `debug`. Use `debug` to log full PHPCS commands and arguments.                                                                                        |
+| `phpSniffer.showOutputOnError`      | `boolean` | `true`     | Automatically reveal the output channel when an error occurs.                                                                                                                                                     |
+| `phpSniffer.fixOnSave`              | `boolean` | `false`    | Run `phpcbf` automatically on every file save.                                                                                                                                                                    |
+| `phpSniffer.previewFix`             | `boolean` | `false`    | Show a diff preview of PHPCBF changes before applying them.                                                                                                                                                       |
+| `phpSniffer.timeout`                | `number`  | `30`       | Seconds before a `phpcs`/`phpcbf` process is killed. Set to `0` to disable.                                                                                                                                       |
+| `phpSniffer.maxConcurrentProcesses` | `number`  | `4`        | Maximum number of concurrent `phpcs` processes. Set to `0` for unlimited.                                                                                                                                         |
+| `phpSniffer.maxFileSize`            | `number`  | `0`        | Skip files larger than this value in kilobytes. Set to `0` to disable the limit.                                                                                                                                  |
+| `phpSniffer.workingDirectory`       | `string`  | `"auto"`   | Working directory for PHPCS processes. One of `auto` (use the workspace folder root, or the file's directory if no workspace is open), `workspaceRoot`, or `fileDir`.                                             |
 
 ## Commands
 
 Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type `PHP Sniffer` to see all available commands.
 
-| Command ID | Title | Description |
-|---|---|---|
-| `phpSniffer.runLint` | PHP Sniffer: Run Lint | Manually trigger `phpcs` on the active file. |
-| `phpSniffer.fixFile` | PHP Sniffer: Fix File | Run `phpcbf` on the active file and apply fixes immediately. |
-| `phpSniffer.showOutput` | PHP Sniffer: Show Output Channel | Reveal the PHP Sniffer output channel. |
-| `phpSniffer.copyDebugInfo` | PHP Sniffer: Copy Debug Info | Copy diagnostic information (extension version, PHPCS version, config, OS) to the clipboard for use in bug reports. |
+| Command ID                 | Title                            | Description                                                                                                         |
+| -------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `phpSniffer.runLint`       | PHP Sniffer: Run Lint            | Manually trigger `phpcs` on the active file.                                                                        |
+| `phpSniffer.fixFile`       | PHP Sniffer: Fix File            | Run `phpcbf` on the active file and apply fixes immediately.                                                        |
+| `phpSniffer.showOutput`    | PHP Sniffer: Show Output Channel | Reveal the PHP Sniffer output channel.                                                                              |
+| `phpSniffer.copyDebugInfo` | PHP Sniffer: Copy Debug Info     | Copy diagnostic information (extension version, PHPCS version, config, OS) to the clipboard for use in bug reports. |
 
 ## Problem Matcher
 
@@ -110,14 +116,28 @@ A built-in `$phpcs` problem matcher is included for use in `tasks.json`:
 }
 ```
 
+## Known Limitations
+
+### PHPCS v3 — `phpcs.xml` exclude-patterns
+
+On PHPCS **v4**, when a file is excluded via `<exclude-pattern>` in `phpcs.xml`, the extension detects this on the first run and caches the result — subsequent saves skip the process entirely.
+
+On PHPCS **v3**, `phpcs` and `phpcbf` return a success exit code for excluded files rather than an error, so the extension cannot distinguish them from genuinely clean files. Excluded files are still handled **correctly** (no violations are reported, file content is never modified), but the process is spawned on every save instead of being skipped. This has no effect on correctness — only on performance for excluded files.
+
+`.phpcsignore` pattern matching works correctly on both v3 and v4 since it is implemented entirely in the extension.
+
+---
+
 ## Debugging
 
 If linting is not working as expected:
 
 1. **Enable debug logging** — add to your settings:
+
    ```json
    { "phpSniffer.logLevel": "debug" }
    ```
+
    Then open the output channel via **PHP Sniffer: Show Output Channel**. The full `phpcs` command, arguments, working directory, and process output are logged for every run.
 
 2. **Copy debug info** — run **PHP Sniffer: Copy Debug Info** from the Command Palette. This copies a structured summary of the extension version, detected PHPCS version, resolved configuration, and OS details to your clipboard. Paste this into any bug report.
@@ -125,6 +145,7 @@ If linting is not working as expected:
 3. **Check the executable path** — if auto-detection is enabled, the log shows which `vendor/bin/phpcs` path was resolved. If the wrong binary is being used, set `phpSniffer.executablesFolder` explicitly.
 
 **What to include in a bug report:**
+
 - Output of **Copy Debug Info**
 - The content of your `phpcs.xml` or relevant `settings.json` entries
 - The full output from the output channel with `logLevel` set to `debug`
@@ -145,6 +166,7 @@ The PHP community now maintains this extension under [phpcs-community/vscode-php
 Migration requires no configuration changes. The `phpSniffer.*` settings namespace is identical to the original extension.
 
 Steps:
+
 1. Uninstall `wongjn.vscode-php-sniffer` from VS Code.
 2. Install `phpcscommunity.php-codesniffer` from the Marketplace.
 3. Restart VS Code.

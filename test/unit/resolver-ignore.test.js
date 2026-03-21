@@ -8,7 +8,11 @@ const { mkdirSync, writeFileSync, rmSync } = require('fs');
 const { join } = require('path');
 const { tmpdir } = require('os');
 
-const { isIgnoredByPhpcs, matchesIgnorePattern, clearIgnoreCache } = require('../../lib/phpcs-ignore');
+const {
+  isIgnoredByPhpcs,
+  matchesIgnorePattern,
+  clearIgnoreCache,
+} = require('../../lib/phpcs-ignore');
 
 suite('matchesIgnorePattern()', function () {
   test('*.php matches foo.php (basename pattern)', function () {
@@ -20,23 +24,41 @@ suite('matchesIgnorePattern()', function () {
   });
 
   test('absolute pattern /project/vendor/*.php matches full path', function () {
-    strictEqual(matchesIgnorePattern('/project/vendor/*.php', '/project/vendor/bootstrap.php'), true);
+    strictEqual(
+      matchesIgnorePattern(
+        '/project/vendor/*.php',
+        '/project/vendor/bootstrap.php',
+      ),
+      true,
+    );
   });
 
   test('absolute pattern /vendor/*.php does not match /project/vendor/foo.php', function () {
-    strictEqual(matchesIgnorePattern('/vendor/*.php', '/project/vendor/foo.php'), false);
+    strictEqual(
+      matchesIgnorePattern('/vendor/*.php', '/project/vendor/foo.php'),
+      false,
+    );
   });
 
   test('vendor/ (trailing slash) matches file inside vendor directory', function () {
-    strictEqual(matchesIgnorePattern('vendor/', '/project/vendor/foo.php'), true);
+    strictEqual(
+      matchesIgnorePattern('vendor/', '/project/vendor/foo.php'),
+      true,
+    );
   });
 
   test('vendor/*.php (relative) matches /project/vendor/foo.php', function () {
-    strictEqual(matchesIgnorePattern('vendor/*.php', '/project/vendor/foo.php'), true);
+    strictEqual(
+      matchesIgnorePattern('vendor/*.php', '/project/vendor/foo.php'),
+      true,
+    );
   });
 
   test('vendor/*.php does not match file outside vendor', function () {
-    strictEqual(matchesIgnorePattern('vendor/*.php', '/project/src/foo.php'), false);
+    strictEqual(
+      matchesIgnorePattern('vendor/*.php', '/project/src/foo.php'),
+      false,
+    );
   });
 
   test('? matches single character', function () {
@@ -45,8 +67,14 @@ suite('matchesIgnorePattern()', function () {
   });
 
   test('exact filename pattern matches', function () {
-    strictEqual(matchesIgnorePattern('bootstrap.php', '/any/path/bootstrap.php'), true);
-    strictEqual(matchesIgnorePattern('bootstrap.php', '/any/path/other.php'), false);
+    strictEqual(
+      matchesIgnorePattern('bootstrap.php', '/any/path/bootstrap.php'),
+      true,
+    );
+    strictEqual(
+      matchesIgnorePattern('bootstrap.php', '/any/path/other.php'),
+      false,
+    );
   });
 });
 

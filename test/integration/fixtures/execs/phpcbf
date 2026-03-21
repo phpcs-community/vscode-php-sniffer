@@ -4,7 +4,14 @@
  * Fake PHPCBF executable for tests.
  */
 
-const getStdin = require('get-stdin');
+function getStdin() {
+  return new Promise((resolve) => {
+    const chunks = [];
+    process.stdin.on('data', (chunk) => chunks.push(chunk));
+    process.stdin.on('end', () => resolve(Buffer.concat(chunks).toString()));
+    if (process.stdin.isTTY) resolve('');
+  });
+}
 
 getStdin()
   .then((stdin) => {

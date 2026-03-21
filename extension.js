@@ -35,6 +35,7 @@ module.exports = {
         if (!workspace.getConfiguration('phpSniffer').get('fixOnSave', false)) return;
 
         const cts = new CancellationTokenSource();
+        const cancelTimer = setTimeout(() => cts.cancel(), 1200);
         const runner = createRunner(cts.token, document.uri, true, channel);
         const original = document.getText();
 
@@ -46,7 +47,14 @@ module.exports = {
               const fullRange = new Range(new Position(0, 0), lastLine.range.end);
               return [TextEdit.replace(fullRange, fixedText)];
             })
-            .finally(() => cts.dispose()),
+            .catch((err) => {
+              log(channel, 'error', `Fix on save failed: ${err.message}`);
+              return [];
+            })
+            .finally(() => {
+              clearTimeout(cancelTimer);
+              cts.dispose();
+            }),
         );
       }),
       languages.registerDocumentFormattingEditProvider(

@@ -33,10 +33,9 @@ suite('createCodeActionProvider()', function () {
 
   suite('provideCodeActions()', function () {
     test('Returns a CodeAction when at least one fixable PHPCS diagnostic is present', function () {
+      const fixable = makeDiagnostic({ source: 'PHPCS', message: 'Some rule violation [fixable]' });
       const context = {
-        diagnostics: [
-          makeDiagnostic({ source: 'PHPCS', message: 'Some rule violation [fixable]' }),
-        ],
+        diagnostics: [fixable],
       };
 
       const actions = provider.provideCodeActions(null, null, context);
@@ -44,6 +43,7 @@ suite('createCodeActionProvider()', function () {
       strictEqual(actions.length, 1);
       strictEqual(actions[0] instanceof CodeAction, true);
       strictEqual(actions[0].title, 'Fix with PHPCBF');
+      deepStrictEqual(actions[0].diagnostics, [fixable]);
     });
 
     test('Returns empty array when no diagnostics are fixable', function () {

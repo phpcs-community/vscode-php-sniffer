@@ -33,23 +33,23 @@
             glib
             gtk3
             libdrm
+            libgbm
             libGL
             libxkbcommon
-            mesa
             nspr
             nss
             pango
-            xorg.libX11
-            xorg.libxcb
-            xorg.libXcomposite
-            xorg.libXcursor
-            xorg.libXdamage
-            xorg.libXext
-            xorg.libXfixes
-            xorg.libXi
-            xorg.libXrandr
-            xorg.libXScrnSaver
-            xorg.libXtst
+            libx11
+            libxcb
+            libxcomposite
+            libxcursor
+            libxdamage
+            libxext
+            libxfixes
+            libxi
+            libxrandr
+            libxscrnsaver
+            libxtst
           ];
         in
         {

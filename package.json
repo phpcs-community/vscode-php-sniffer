@@ -225,7 +225,7 @@
     },
     "devDependencies": {
         "@types/lodash.debounce": "^4.0.9",
-        "@types/node": "^24.0.0",
+        "@types/node": "^25.5.0",
         "@types/vscode": "^1.90.0",
         "@vscode/test-electron": "^2.4.0",
         "eslint": "^8.57.0",

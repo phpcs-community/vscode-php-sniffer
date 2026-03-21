@@ -228,7 +228,7 @@
         "@types/node": "^24.0.0",
         "@types/vscode": "^1.90.0",
         "@vscode/test-electron": "^2.4.0",
-        "eslint": "^8.57.0",
+        "eslint": "^10.1.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-import": "^2.29.0",

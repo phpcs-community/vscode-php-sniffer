@@ -1,7 +1,7 @@
 {
     "name": "php-codesniffer",
     "displayName": "PHP_CodeSniffer Community",
-    "description": "Community fork of wongjn/vscode-php-sniffer. Uses PHP_CodeSniffer to lint and format PHP code.",
+    "description": "Community-maintained VS Code extension for PHP_CodeSniffer — real-time linting and auto-fix for PHP, powered by phpcs and phpcbf.",
     "version": "2.0.1",
     "engines": {
         "vscode": "^1.90.0"
@@ -16,8 +16,21 @@
     "keywords": [
         "php",
         "phpcs",
-        "phpcbf"
+        "phpcbf",
+        "php-codesniffer",
+        "linter",
+        "formatter",
+        "beautifier",
+        "code style"
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/phpcs-community/vscode-php-sniffer.git"
+    },
+    "homepage": "https://github.com/phpcs-community/vscode-php-sniffer#readme",
+    "bugs": {
+        "url": "https://github.com/phpcs-community/vscode-php-sniffer/issues"
+    },
     "activationEvents": [
         "onLanguage:php",
         "workspaceContains:**/phpcs.xml",

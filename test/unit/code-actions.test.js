@@ -33,7 +33,10 @@ suite('createCodeActionProvider()', function () {
 
   suite('provideCodeActions()', function () {
     test('Returns a CodeAction when at least one fixable PHPCS diagnostic is present', function () {
-      const fixable = makeDiagnostic({ source: 'PHPCS', message: 'Some rule violation [fixable]' });
+      const fixable = makeDiagnostic({
+        source: 'PHPCS',
+        message: 'Some rule violation [fixable]',
+      });
       const context = {
         diagnostics: [fixable],
       };
@@ -42,7 +45,7 @@ suite('createCodeActionProvider()', function () {
 
       strictEqual(actions.length, 1);
       strictEqual(actions[0] instanceof CodeAction, true);
-      strictEqual(actions[0].title, 'Fix with PHPCBF');
+      strictEqual(actions[0].title, 'Fix all fixable violations (PHPCBF)');
       deepStrictEqual(actions[0].diagnostics, [fixable]);
     });
 
@@ -69,7 +72,10 @@ suite('createCodeActionProvider()', function () {
     test('Returns empty array when fixable diagnostic has wrong source', function () {
       const context = {
         diagnostics: [
-          makeDiagnostic({ source: 'eslint', message: 'Some rule violation [fixable]' }),
+          makeDiagnostic({
+            source: 'eslint',
+            message: 'Some rule violation [fixable]',
+          }),
         ],
       };
 
@@ -81,7 +87,10 @@ suite('createCodeActionProvider()', function () {
     test('Returned action has QuickFix kind', function () {
       const context = {
         diagnostics: [
-          makeDiagnostic({ source: 'PHPCS', message: 'Spacing issue [fixable]' }),
+          makeDiagnostic({
+            source: 'PHPCS',
+            message: 'Spacing issue [fixable]',
+          }),
         ],
       };
 
@@ -93,7 +102,10 @@ suite('createCodeActionProvider()', function () {
     test('Returned action command invokes phpSniffer.fixFile', function () {
       const context = {
         diagnostics: [
-          makeDiagnostic({ source: 'PHPCS', message: 'Spacing issue [fixable]' }),
+          makeDiagnostic({
+            source: 'PHPCS',
+            message: 'Spacing issue [fixable]',
+          }),
         ],
       };
 
@@ -118,7 +130,10 @@ suite('createCodeActionProvider()', function () {
     test('isPreferred is false', function () {
       const context = {
         diagnostics: [
-          makeDiagnostic({ source: 'PHPCS', message: 'Spacing issue [fixable]' }),
+          makeDiagnostic({
+            source: 'PHPCS',
+            message: 'Spacing issue [fixable]',
+          }),
         ],
       };
 

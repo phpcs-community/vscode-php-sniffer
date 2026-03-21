@@ -1,29 +1,56 @@
-# Contributing
+# Contributing to PHP Sniffer & Beautifier
+
+Thank you for your interest in contributing! This is a community-maintained fork of wongjn/vscode-php-sniffer.
 
 ## Development Setup
 
-Requirements: Node.js 24 (use `.nvmrc`), PHP, PHP_CodeSniffer
+Requirements: Node.js 18+, npm, VS Code
 
 ```bash
-nvm use        # or: node --version should be 24.x
+git clone https://github.com/phpcs-community/vscode-php-sniffer.git
+cd vscode-php-sniffer
 npm install
 ```
 
-## Running Tests
+### Running Tests
 
 ```bash
-npm run lint          # ESLint + TypeScript type check
-npm run test:unit     # Unit tests (Mocha)
-npm run test:integration  # Integration tests (VS Code test runner)
+npm run test:unit
 ```
 
-## Pull Request Process
+### Running the Extension Locally
 
-1. Fork and create a branch from `main`
-2. Make your changes with passing tests
-3. Open a PR — CI must be green before review
-4. One maintainer approval required to merge
+Press F5 in VS Code to open an Extension Development Host.
 
-## Reporting Issues
+## Project Structure
 
-Use the GitHub issue templates for bug reports and feature requests.
+- `extension.js` — entry point, activation
+- `lib/` — core modules
+  - `runner.js` — phpcs/phpcbf process management
+  - `validator.js` — real-time linting
+  - `formatter.js` — document/range formatting
+  - `resolver.js` — executable and config resolution
+  - `commands.js` — command palette commands
+  - `code-actions.js` — quick fix actions
+  - `hover-provider.js` — hover documentation
+  - `status-bar.js` — status bar item
+  - `phpcs-ignore.js` — .phpcsignore support
+  - `logger.js` — structured logging
+  - `queue.js` — concurrency control
+  - `version.js` — version parsing
+- `test/` — mocha tests (unit + integration)
+
+## Pull Requests
+
+- Open an issue first for large changes
+- Follow existing code style (CommonJS, JSDoc types, no TypeScript)
+- Add tests for new behaviour
+- All tests must pass: `npm run test:unit`
+
+## Good First Issues
+
+Look for issues labelled `good first issue` on GitHub.
+
+## Reporting Bugs
+
+Include output from "PHP Sniffer: Copy Debug Info" command.

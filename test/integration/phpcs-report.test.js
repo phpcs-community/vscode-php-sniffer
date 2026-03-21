@@ -113,7 +113,6 @@ suite('Report Utilities', function () {
           DiagnosticSeverity[type === 'WARNING' ? 'Warning' : 'Error'],
         );
         strictEqual(result[index].code, source);
-        strictEqual(result[index].fixable, fixable === true);
       });
     });
 

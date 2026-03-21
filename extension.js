@@ -106,7 +106,9 @@ module.exports = {
       ignoreWatcher.onDidDelete(() => clearIgnoreCache()),
     );
 
-    // Detect and log PHPCS version at activation
+    // Detect and log PHPCS version at activation.
+    // Version detection uses the first workspace folder's phpcs executable.
+    // Per-file workspace folder lookup is handled by createRunner at lint time.
     const firstFolder = workspace.workspaceFolders?.[0];
     const firstConfig = firstFolder
       ? workspace.getConfiguration('phpSniffer', firstFolder.uri)
@@ -131,7 +133,7 @@ module.exports = {
     const notifiedKey = 'phpSniffer.configDetectedNotified';
     const folders = workspace.workspaceFolders;
     if (folders && folders.length > 0 && !context.globalState.get(notifiedKey)) {
-      // Check first workspace folder for a config
+      // Onboarding check uses first workspace folder only (one-time notification).
       findNearestConfig(folders[0].uri.fsPath)
         .then((configPath) => {
           if (configPath) {

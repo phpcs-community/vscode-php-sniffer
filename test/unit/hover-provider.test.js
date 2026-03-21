@@ -211,7 +211,7 @@ suite('createHoverProvider()', function () {
 
       const content = result.contents[0].value;
       ok(
-        content.includes('https://github.com/squizlabs/PHP_CodeSniffer/wiki'),
+        content.includes('https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki'),
         'should include docs link',
       );
     });

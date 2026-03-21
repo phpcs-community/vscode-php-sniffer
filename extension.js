@@ -30,11 +30,10 @@ module.exports = {
 
     const CONFLICTING_FORMATTERS = [
       'junstyle.php-cs-fixer',
-      'bmewburn.vscode-intelephense-client',
       'nickmitchko.php-fixer-formatter',
     ];
     const hasConflict = CONFLICTING_FORMATTERS.some(
-      (id) => extensions.getExtension(id)?.isActive,
+      (id) => extensions.getExtension(id) !== undefined,
     );
 
     if (hasConflict) {

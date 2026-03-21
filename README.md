@@ -69,7 +69,6 @@ All settings are prefixed with `phpSniffer.` and can be set at user, workspace, 
 | `phpSniffer.executablesFolder` | `string` | `""` | Folder containing the `phpcs` and `phpcbf` executables. Can be absolute or relative to the workspace folder. Leave empty to use `$PATH` or auto-detection. |
 | `phpSniffer.autoDetect` | `boolean` | `false` | Automatically detect `vendor/bin/` as the executables folder per workspace folder. Only applies when `executablesFolder` is empty. |
 | `phpSniffer.standard` | `string` | `""` | Coding standard passed to `phpcs`/`phpcbf` as `--standard`. Can be a standard name or a path to a ruleset file (absolute or relative to the workspace). If empty, PHPCS searches for a config file automatically. |
-| `phpSniffer.extraArgs` | `array` | `[]` | Additional arguments appended to every `phpcs` invocation. |
 | `phpSniffer.extraFiles` | `array` | `[]` | Glob patterns for non-PHP file types the extension should lint (e.g. for standards that validate `.inc` files). PHP files are always included. |
 | `phpSniffer.snippetExcludeSniffs` | `array` | `[]` | Sniffs to pass as `--exclude` when formatting a selection or snippet (not a whole file). |
 | `phpSniffer.disableWhenDebugging` | `boolean` | `false` | Pause linting while a debug session is active. Scoped to machine. |
@@ -77,10 +76,10 @@ All settings are prefixed with `phpSniffer.` and can be set at user, workspace, 
 | `phpSniffer.showOutputOnError` | `boolean` | `true` | Automatically reveal the output channel when an error occurs. |
 | `phpSniffer.fixOnSave` | `boolean` | `false` | Run `phpcbf` automatically on every file save. |
 | `phpSniffer.previewFix` | `boolean` | `false` | Show a diff preview of PHPCBF changes before applying them. |
-| `phpSniffer.timeout` | `number` | `10` | Seconds before a `phpcs`/`phpcbf` process is killed. |
+| `phpSniffer.timeout` | `number` | `30` | Seconds before a `phpcs`/`phpcbf` process is killed. Set to `0` to disable. |
 | `phpSniffer.maxConcurrentProcesses` | `number` | `4` | Maximum number of concurrent `phpcs` processes. Set to `0` for unlimited. |
 | `phpSniffer.maxFileSize` | `number` | `0` | Skip files larger than this value in kilobytes. Set to `0` to disable the limit. |
-| `phpSniffer.workingDirectory` | `string` | `"auto"` | Working directory for PHPCS processes. One of `auto` (nearest config file directory), `workspaceRoot`, or `fileDir`. |
+| `phpSniffer.workingDirectory` | `string` | `"auto"` | Working directory for PHPCS processes. One of `auto` (use the workspace folder root, or the file's directory if no workspace is open), `workspaceRoot`, or `fileDir`. |
 
 ## Commands
 

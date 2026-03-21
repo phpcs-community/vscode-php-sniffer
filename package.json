@@ -218,7 +218,7 @@
         "format": "prettier --write .",
         "lint": "prettier --check . && eslint --ignore-path .gitignore . && tsc",
         "test:unit": "mocha \"./test/unit/*.test.js\"",
-        "test:integration": "node ./test/run.js",
+        "test:integration": "vscode-test",
         "version": "node ./scripts/changelog && git add CHANGELOG.md",
         "publish:vsce": "npx @vscode/vsce publish",
         "publish:ovsx": "npx ovsx publish"
@@ -227,6 +227,7 @@
         "@types/lodash.debounce": "^4.0.9",
         "@types/node": "^25.5.0",
         "@types/vscode": "^1.90.0",
+        "@vscode/test-cli": "^0.0.12",
         "@vscode/test-electron": "^2.4.0",
         "eslint": "^8.57.0",
         "eslint-config-airbnb-base": "^15.0.0",

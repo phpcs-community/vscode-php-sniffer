@@ -8,7 +8,7 @@ const { mkdirSync, writeFileSync, rmSync } = require('fs');
 const { join } = require('path');
 const { tmpdir } = require('os');
 
-const { isIgnoredByPhpcs, matchesIgnorePattern } = require('../../lib/phpcs-ignore');
+const { isIgnoredByPhpcs, matchesIgnorePattern, clearIgnoreCache } = require('../../lib/phpcs-ignore');
 
 suite('matchesIgnorePattern()', function () {
   test('*.php matches foo.php (basename pattern)', function () {
@@ -19,9 +19,20 @@ suite('matchesIgnorePattern()', function () {
     strictEqual(matchesIgnorePattern('*.php', '/some/path/foo.js'), false);
   });
 
-  test('pattern with / is matched against full path (path pattern)', function () {
-    // Pattern must match the full path — prefix it to get a full-path match
+  test('absolute pattern /project/vendor/*.php matches full path', function () {
     strictEqual(matchesIgnorePattern('/project/vendor/*.php', '/project/vendor/bootstrap.php'), true);
+  });
+
+  test('absolute pattern /vendor/*.php does not match /project/vendor/foo.php', function () {
+    strictEqual(matchesIgnorePattern('/vendor/*.php', '/project/vendor/foo.php'), false);
+  });
+
+  test('vendor/ (trailing slash) matches file inside vendor directory', function () {
+    strictEqual(matchesIgnorePattern('vendor/', '/project/vendor/foo.php'), true);
+  });
+
+  test('vendor/*.php (relative) matches /project/vendor/foo.php', function () {
+    strictEqual(matchesIgnorePattern('vendor/*.php', '/project/vendor/foo.php'), true);
   });
 
   test('vendor/*.php does not match file outside vendor', function () {
@@ -43,12 +54,14 @@ suite('isIgnoredByPhpcs()', function () {
   let tmpDir;
 
   setup(function () {
+    clearIgnoreCache();
     tmpDir = join(tmpdir(), `phpcs-ignore-test-${Date.now()}`);
     mkdirSync(tmpDir, { recursive: true });
   });
 
   teardown(function () {
     rmSync(tmpDir, { recursive: true, force: true });
+    clearIgnoreCache();
   });
 
   test('returns false when no .phpcsignore file found', function () {

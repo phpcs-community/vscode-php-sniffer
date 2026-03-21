@@ -122,7 +122,10 @@ suite('CLI Utilities', function () {
       const result = await executeCommand({
         command: 'node',
         token: createStubToken(),
-        args: ['-e', 'process.stdout.write("out"); process.stderr.write("err")'],
+        args: [
+          '-e',
+          'process.stdout.write("out"); process.stderr.write("err")',
+        ],
       });
 
       deepStrictEqual(result, { stdout: 'out', stderr: 'err' });
@@ -134,7 +137,9 @@ suite('CLI Utilities', function () {
         try {
           const data = JSON.parse(stderr);
           if (typeof data.tabWidth === 'number') return data.tabWidth;
-        } catch { /* ignore */ }
+        } catch {
+          /* ignore */
+        }
         return 1;
       }
 

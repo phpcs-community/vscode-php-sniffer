@@ -181,7 +181,11 @@
                     "scope": "resource",
                     "type": "string",
                     "default": "auto",
-                    "enum": ["auto", "workspaceRoot", "fileDir"],
+                    "enum": [
+                        "auto",
+                        "workspaceRoot",
+                        "fileDir"
+                    ],
                     "enumDescriptions": [
                         "Use the workspace folder root (or the file's directory if no workspace is open).",
                         "Always use the workspace folder root.",

@@ -3,6 +3,7 @@
 ## Completed
 
 ### Phase 1 — Critical Bug Fixes
+
 - Fixed JSON parsing (stdout/stderr separation)
 - Fixed shared mutable args state
 - Fixed Windows CRLF line splitting
@@ -10,6 +11,7 @@
 - Fixed indent reducer crash on empty input
 
 ### Phase 2 — UX & Reliability
+
 - Smart activation events (onLanguage:php + workspaceContains)
 - Structured logging with logLevel (off/error/info/debug)
 - Process timeout (phpSniffer.timeout)
@@ -19,6 +21,7 @@
 - Formatter error notifications
 
 ### Phase 3 — Features
+
 - Status bar error/warning counter
 - Command palette: Run Lint, Fix File, Show Output, Copy Debug Info
 - Executable auto-detection (vendor/bin walk-up)
@@ -28,6 +31,7 @@
 - PHPCS version detection
 
 ### Phase 4 — Advanced Features
+
 - Code actions: "Fix with PHPCBF" lightbulb on fixable violations
 - Hover provider: rule name and docs on diagnostic hover
 - Fix-on-save (phpSniffer.fixOnSave)
@@ -39,6 +43,7 @@
 - PHPCS v3/v4 version-aware activation
 
 ### Phase 5 — Documentation & Community
+
 - Full README rewrite with feature docs, quick start, debugging, migration guide
 - CONTRIBUTING.md with dev setup and project structure
 - GitHub Actions CI (Node 18/20 matrix)
@@ -47,6 +52,7 @@
 ## Planned
 
 ### Future Ideas
+
 - Integration tests with real PHPCS binary
 - TypeScript migration (opt-in, gradual)
 - PHPCS config file generator

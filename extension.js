@@ -16,6 +16,7 @@ const { findNearestConfig, resolveExecutableFolderCached, detectPhpcsVersion } =
 const { parseMajorVersion } = require('./lib/version');
 const { log } = require('./lib/logger');
 const { createRunner } = require('./lib/runner');
+const { clearIgnoreCache } = require('./lib/phpcs-ignore');
 
 module.exports = {
   /**
@@ -95,6 +96,14 @@ module.exports = {
         { language: 'php', scheme: 'file' },
         createHoverProvider(validator.diagnostics),
       ),
+    );
+
+    const ignoreWatcher = workspace.createFileSystemWatcher('**/.phpcsignore');
+    context.subscriptions.push(
+      ignoreWatcher,
+      ignoreWatcher.onDidChange(() => clearIgnoreCache()),
+      ignoreWatcher.onDidCreate(() => clearIgnoreCache()),
+      ignoreWatcher.onDidDelete(() => clearIgnoreCache()),
     );
 
     // Detect and log PHPCS version at activation

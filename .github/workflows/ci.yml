@@ -10,19 +10,85 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Unit Tests
+  # ── Unit tests ────────────────────────────────────────────────────────────
+  unit:
+    name: Unit Tests (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: npm
       - run: npm ci
       - run: npm run test:unit
+
+  # ── Integration tests (mock phpcs/phpcbf — no PHP required) ──────────────
+  integration:
+    name: Integration Tests (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci
+      - name: Cache VS Code download
+        uses: actions/cache@v4
+        with:
+          path: .vscode-test
+          key: vscode-${{ runner.os }}-${{ hashFiles('.vscode-test.js') }}
+      - name: Run integration tests
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" npm run test:integration -- --label Integration
+
+  # ── Functional tests (real phpcs/phpcbf, PHP × phpcs matrix) ─────────────
+  #
+  # Matrix:
+  #   PHP 7.4  × phpcs ^3.9
+  #   PHP 8.1  × phpcs ^3.9
+  #   PHP 8.1  × phpcs ^4.0
+  #   PHP 8.3  × phpcs ^3.9
+  #   PHP 8.3  × phpcs ^4.0
+  #
+  # phpcs 4.x requires PHP 8.1+, so PHP 7.4 × ^4.0 is excluded.
+  functional:
+    name: Functional (PHP ${{ matrix.php-version }}, phpcs ${{ matrix.phpcs-constraint }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4', '8.1', '8.3']
+        phpcs-constraint: ['^3.9', '^4.0']
+        exclude:
+          - php-version: '7.4'
+            phpcs-constraint: '^4.0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer
+      - run: npm ci
+      - name: Cache VS Code download
+        uses: actions/cache@v4
+        with:
+          path: .vscode-test
+          key: vscode-${{ runner.os }}-${{ hashFiles('.vscode-test.js') }}
+      - name: Pin phpcs version in test fixtures
+        working-directory: test/fixtures
+        env:
+          PHPCS_CONSTRAINT: ${{ matrix.phpcs-constraint }}
+        run: composer require "squizlabs/php_codesniffer:$PHPCS_CONSTRAINT" --no-interaction --no-progress
+      - name: Run functional tests
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" npm run test:integration -- --label Functional

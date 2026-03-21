@@ -188,6 +188,11 @@
                         "Always use the directory of the file being checked."
                     ],
                     "markdownDescription": "Controls the working directory passed to `phpcs`/`phpcbf`."
+                },
+                "phpSniffer.previewFix": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Show a diff preview before applying PHPCBF fixes instead of applying immediately."
                 }
             }
         }

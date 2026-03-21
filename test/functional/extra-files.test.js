@@ -7,21 +7,36 @@ const { getNextDiagnostics } = require('./utils');
 suite('`extraFiles` handling', function () {
   const fixtureUri = Uri.file(path.join(FIXTURES_PATH, 'style.css'));
   const textEncoder = new TextEncoder();
+  let setupComplete = false;
 
-  suiteSetup(function () {
+  suiteSetup(async function () {
     this.timeout(60000);
 
+    await execPromise('composer install --no-dev', { cwd: FIXTURES_PATH });
+
+    // CSS scanning was removed in phpcs 4.x — skip this suite if that version is installed.
+    const versionOutput = await execPromise(
+      `php ${path.join(FIXTURES_PATH, 'vendor', 'bin', 'phpcs')} --version`,
+    );
+    const phpcsVerMatch = versionOutput.match(/version (\d+)/i);
+    const phpcsM = phpcsVerMatch ? parseInt(phpcsVerMatch[1], 10) : 0;
+    if (phpcsM >= 4) {
+      this.skip();
+      return;
+    }
+
     const config = workspace.getConfiguration('phpSniffer', fixtureUri);
-    return Promise.all([
-      execPromise('composer install --no-dev', { cwd: FIXTURES_PATH }),
+    await Promise.all([
       workspace.fs.writeFile(fixtureUri, textEncoder.encode('a{margin : 0}')),
       config.update('executablesFolder', `vendor${path.sep}bin${path.sep}`),
       config.update('standard', './css.xml'),
       config.update('extraFiles', ['**/*.css']),
     ]);
+    setupComplete = true;
   });
 
-  suiteTeardown(function () {
+  suiteTeardown(async function () {
+    if (!setupComplete) return;
     const config = workspace.getConfiguration('phpSniffer', fixtureUri);
     return Promise.all([
       workspace.fs.delete(fixtureUri),

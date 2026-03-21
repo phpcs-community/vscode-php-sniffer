@@ -117,18 +117,28 @@ function testCase({
 
 /**
  * Runs test cases for two files for preset and a local ruleset.
+ *
+ * @param {object} [context]
+ *   Optional shared context. If provided, `context.presetErrors` will be set
+ *   to the PSR2 validation errors array so callers can mutate it in suiteSetup
+ *   to adjust version-dependent column positions before tests run.
  */
-function functionalTestSuiteRun() {
-  testCase({
-    description: 'Preset',
-    content: '<?php class my_class {}\n',
-    expectedValidationErrors: [
+function functionalTestSuiteRun(context = {}) {
+  // Default to phpcs 4.x column (12). Callers with phpcs 3.x can set
+  // context.presetErrors[1].column = 6 in their suiteSetup.
+  if (!context.presetErrors) {
+    context.presetErrors = [
       { row: 0, column: 6 },
-      { row: 0, column: 6 },
+      { row: 0, column: 12 },
       { row: 0, column: 21 },
       { row: 0, column: 22 },
       { row: 0, column: 22 },
-    ],
+    ];
+  }
+  testCase({
+    description: 'Preset',
+    content: '<?php class my_class {}\n',
+    expectedValidationErrors: context.presetErrors,
     expectedFormattedResult: '<?php class my_class\n{\n}\n',
     standard: 'PSR2',
   });
@@ -144,9 +154,19 @@ function functionalTestSuiteRun() {
 
 suite('Executable & ruleset locations', function () {
   suite('Global executable', function () {
+    const globalCtx = {};
+
     suiteSetup(async function () {
       this.timeout(20000);
       if (!(await hasGlobalPHPCS())) this.skip();
+
+      // Detect global phpcs major version to adjust version-dependent columns.
+      // phpcs 3.x reports NotPascalCase at the class keyword (col 6);
+      // phpcs 4.x reports it at the class name (col 12).
+      const versionOutput = await execPromise('phpcs --version');
+      const match = versionOutput.match(/version (\d+)/i);
+      const majorVersion = match ? parseInt(match[1], 10) : 4;
+      if (majorVersion < 4) globalCtx.presetErrors[1].column = 6;
     });
 
     testCase({
@@ -173,7 +193,7 @@ suite('Executable & ruleset locations', function () {
       },
     });
 
-    functionalTestSuiteRun();
+    functionalTestSuiteRun(globalCtx);
   });
 
   suite('Local executable', function () {

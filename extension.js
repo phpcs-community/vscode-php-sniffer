@@ -3,13 +3,14 @@
  * Extension entry.
  */
 
-const { languages, window, workspace } = require('vscode');
+const { languages, window, workspace, CodeActionKind } = require('vscode');
 const {
   createFormatter,
   activateGenericFormatter,
 } = require('./lib/formatter');
 const { createValidator } = require('./lib/validator');
 const { registerCommands, setPhpcsVersion } = require('./lib/commands');
+const { createCodeActionProvider } = require('./lib/code-actions');
 const { findNearestConfig, resolveExecutableFolderCached, detectPhpcsVersion } = require('./lib/resolver');
 const { log } = require('./lib/logger');
 
@@ -38,6 +39,11 @@ module.exports = {
       activateGenericFormatter(channel),
       createValidator(channel),
       registerCommands(channel),
+      languages.registerCodeActionsProvider(
+        { language: 'php', scheme: 'file' },
+        createCodeActionProvider(),
+        { providedCodeActionKinds: [CodeActionKind.QuickFix] },
+      ),
     );
 
     // Detect and log PHPCS version at activation

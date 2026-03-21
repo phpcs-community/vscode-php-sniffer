@@ -11,6 +11,7 @@ const {
 const { createValidator } = require('./lib/validator');
 const { registerCommands, setPhpcsVersion } = require('./lib/commands');
 const { createCodeActionProvider } = require('./lib/code-actions');
+const { createHoverProvider } = require('./lib/hover-provider');
 const { findNearestConfig, resolveExecutableFolderCached, detectPhpcsVersion } = require('./lib/resolver');
 const { log } = require('./lib/logger');
 const { createRunner } = require('./lib/runner');
@@ -66,12 +67,20 @@ module.exports = {
         Formatter,
       ),
       activateGenericFormatter(channel),
-      createValidator(channel),
       registerCommands(channel),
       languages.registerCodeActionsProvider(
         { language: 'php', scheme: 'file' },
         createCodeActionProvider(),
         { providedCodeActionKinds: [CodeActionKind.QuickFix] },
+      ),
+    );
+
+    const validator = createValidator(channel);
+    context.subscriptions.push(
+      validator,
+      languages.registerHoverProvider(
+        { language: 'php', scheme: 'file' },
+        createHoverProvider(validator.diagnostics),
       ),
     );
 

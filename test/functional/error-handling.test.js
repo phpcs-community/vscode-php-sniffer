@@ -1,6 +1,6 @@
 const assert = require('assert');
 const path = require('path');
-const { workspace, Uri } = require('vscode');
+const { commands, window, workspace, Uri } = require('vscode');
 const { createFile, writeFile, unlink } = require('fs-extra');
 const { execPromise, FIXTURES_PATH } = require('../utils');
 const { getNextDiagnostics } = require('./utils');
@@ -39,28 +39,42 @@ suite('Error handling', function () {
   });
 
   teardown(async function () {
+    await commands.executeCommand('workbench.action.closeAllEditors');
     await unlink(fileUri.fsPath);
   });
 
   test('extension recovers after an invalid standard is set', async function () {
-    // Step 1: Open file and wait for PSR2 violations.
-    const diagnosticsWatch0 = getNextDiagnostics(fileUri);
-    await workspace.openTextDocument(fileUri);
-    const initialDiags = await diagnosticsWatch0;
+    const config = workspace.getConfiguration('phpSniffer', fileUri);
+
+    // Step 1: Show file in editor and wait for initial PSR2 violations.
+    // window.showTextDocument puts the document in an editor tab so that
+    // closeAllEditors will fire onDidCloseTextDocument → diagnostics.delete.
+    const initialWatch = getNextDiagnostics(fileUri);
+    const doc1 = await workspace.openTextDocument(fileUri);
+    await window.showTextDocument(doc1);
+    const initialDiags = await initialWatch;
     assert(initialDiags.length > 0, 'PSR2 should produce violations on class my_class');
 
-    // Step 2: Switch to invalid standard.
-    // Race prevents hanging if phpcs fails silently (no diagnostic change event fires).
-    const config = workspace.getConfiguration('phpSniffer', fileUri);
+    // Step 2: Switch to invalid standard; close+reopen to exercise the error path.
+    // The extension only re-validates via onDidOpenTextDocument (not on config changes),
+    // so close+reopen is needed to trigger a phpcs run with the new standard.
     await config.update('standard', '__NonExistentStandard__');
-    const timeout = (ms) => new Promise((r) => setTimeout(r, ms));
-    await Promise.race([getNextDiagnostics(fileUri), timeout(3000)]);
+    await commands.executeCommand('workbench.action.closeAllEditors');
+    // onDocumentClose → diagnostics.delete → count: N→0
+    const doc2 = await workspace.openTextDocument(fileUri);
+    await window.showTextDocument(doc2);
+    // phpcs errors with invalid standard → diagnostics.delete → count stays 0.
+    // No getNextDiagnostics watch here: count 0→0 would never resolve.
 
-    // Step 3: Restore valid standard and assert recovery.
-    // Set up watch BEFORE the config update to avoid a race where validation
-    // completes before the listener is registered.
-    const recoveryWatch = getNextDiagnostics(fileUri);
+    // Step 3: Restore PSR2; close+reopen to trigger recovery validation.
     await config.update('standard', 'PSR2');
+    // Register watch before closing so we don't miss the event.
+    const recoveryWatch = getNextDiagnostics(fileUri); // captures count = 0
+    await commands.executeCommand('workbench.action.closeAllEditors');
+    // onDocumentClose removes doc2 from memory; next openTextDocument fires
+    // onDidOpenTextDocument fresh, triggering validation with PSR2.
+    const doc3 = await workspace.openTextDocument(fileUri);
+    await window.showTextDocument(doc3);
     const recoveredDiags = await recoveryWatch;
     assert(
       recoveredDiags.length > 0,

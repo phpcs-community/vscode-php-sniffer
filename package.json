@@ -2,7 +2,7 @@
     "name": "php-codesniffer",
     "displayName": "PHP_CodeSniffer Community",
     "description": "Community-maintained VS Code extension for PHP_CodeSniffer — real-time linting and auto-fix for PHP, powered by phpcs and phpcbf.",
-    "version": "2.0.2",
+    "version": "2.1.0",
     "engines": {
         "vscode": "^1.90.0"
     },

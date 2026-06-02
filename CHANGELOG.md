@@ -2,6 +2,28 @@
 
 All notable changes to the "PHP Sniffer & Beautifier" extension will be documented in this file.
 
+## [2.1.0](https://github.com/phpcs-community/vscode-php-sniffer/compare/v2.0.2...v2.1.0) (2026-04-09)
+
+
+### Features
+
+* default showOutputOnError to false ([288c555](https://github.com/phpcs-community/vscode-php-sniffer/commit/288c555d1c5b4b59484ee84f682c6bd06647aef0))
+
+
+### Bug Fixes
+
+* add phpcs v3/v4 compatibility to runner ([f2454fe](https://github.com/phpcs-community/vscode-php-sniffer/commit/f2454fe3a3984d017eef03145cceb5f3c0efe880))
+* address CodeRabbit findings in pre-existing code ([f7ac95a](https://github.com/phpcs-community/vscode-php-sniffer/commit/f7ac95ab6bb25382f02b14d8eefb4f59e0b993cc))
+* guard channel.show with optional chaining in logger ([7c40be3](https://github.com/phpcs-community/vscode-php-sniffer/commit/7c40be369434a9a3ba0dd2e7858c454d365ed3b7))
+* override serialize-javascript and diff to resolve CVEs ([df25674](https://github.com/phpcs-community/vscode-php-sniffer/commit/df25674e0249acf456304357cc528148de710f87))
+* pass -q to phpcbf to suppress deprecation warnings in stdout ([eb164c2](https://github.com/phpcs-community/vscode-php-sniffer/commit/eb164c287ddbeef5580c0d8c40e6b282b5b7f963))
+* **test:** repair mock fixtures for ESM get-stdin and truncated JSON ([56226dc](https://github.com/phpcs-community/vscode-php-sniffer/commit/56226dcc899d8a351c4a4e70e1abe990f4c4215a))
+* **test:** trigger re-validation via run config change in error-handling test ([90210ec](https://github.com/phpcs-community/vscode-php-sniffer/commit/90210ec45b892791c678c59c087f8169e7775bcb))
+* **test:** update functional tests for phpcs v4 behavior changes ([7324081](https://github.com/phpcs-community/vscode-php-sniffer/commit/7324081489dfcc25bf42a3de171d6815f5128b14))
+* **test:** update integration assertions for runner result wrapper shape ([b522540](https://github.com/phpcs-community/vscode-php-sniffer/commit/b522540f57eff9e813f3010a4d58d25ebee446d0))
+* **test:** use close+reopen pattern in error-handling test ([26599e2](https://github.com/phpcs-community/vscode-php-sniffer/commit/26599e2cf22424dcdb7fdcfb5c9e983f0a558385))
+* use directory-boundary matching in files.php bootstrap ([2873598](https://github.com/phpcs-community/vscode-php-sniffer/commit/2873598635f9452257b630c3de2547ac9831c115))
+
 ## [2.0.2](https://github.com/phpcs-community/vscode-php-sniffer/compare/v2.0.1...v2.0.2) (2026-03-21)
 
 

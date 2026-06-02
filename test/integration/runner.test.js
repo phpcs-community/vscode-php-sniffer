@@ -174,6 +174,12 @@ suite('Runner', function () {
           assert(result.arg.endsWith(' -'));
         });
 
+        test('Quiet mode flag (-q) is passed', async function () {
+          const run = createRunner(new CancellationTokenSource().token, a);
+          const result = JSON.parse(await run.phpcbf('a'));
+          assert(result.arg.includes(' -q '));
+        });
+
         test('Sniffs are excluded for partial document', async function () {
           const run = createRunner(
             new CancellationTokenSource().token,

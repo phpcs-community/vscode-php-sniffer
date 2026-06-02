@@ -12,6 +12,10 @@ const {
   isIgnoredByPhpcs,
   matchesIgnorePattern,
   clearIgnoreCache,
+  findPhpcsIgnore,
+  isExcludedByConfig,
+  markExcludedByConfig,
+  clearExcludedCache,
 } = require('../../lib/phpcs-ignore');
 
 suite('matchesIgnorePattern()', function () {
@@ -145,5 +149,85 @@ suite('isIgnoredByPhpcs()', function () {
     const filePath = join(subDir, 'bar.php');
     // Nearest is subDir/.phpcsignore which doesn't match *.php
     strictEqual(isIgnoredByPhpcs(filePath), false);
+  });
+});
+
+suite('findPhpcsIgnore() caching', function () {
+  let tmpDir;
+
+  setup(function () {
+    tmpDir = join(
+      tmpdir(),
+      `phpcs-ignore-test-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    );
+    mkdirSync(tmpDir, { recursive: true });
+    clearIgnoreCache();
+  });
+
+  teardown(function () {
+    clearIgnoreCache();
+    rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  test('Returns null when no .phpcsignore found', function () {
+    const result = findPhpcsIgnore(tmpDir);
+    strictEqual(result, null);
+  });
+
+  test('Returns file contents when file exists', function () {
+    writeFileSync(join(tmpDir, '.phpcsignore'), 'vendor/');
+    const result = findPhpcsIgnore(tmpDir);
+    strictEqual(result, 'vendor/');
+  });
+
+  test('Caches result — re-read returns original value after file changes on disk', function () {
+    const ignoreFile = join(tmpDir, '.phpcsignore');
+    writeFileSync(ignoreFile, 'vendor/');
+    findPhpcsIgnore(tmpDir); // prime cache
+    writeFileSync(ignoreFile, 'changed/');
+    const result = findPhpcsIgnore(tmpDir);
+    strictEqual(result, 'vendor/'); // still original — proves no re-read
+  });
+
+  test('clearIgnoreCache() invalidates cache — re-read returns new value', function () {
+    const ignoreFile = join(tmpDir, '.phpcsignore');
+    writeFileSync(ignoreFile, 'vendor/');
+    findPhpcsIgnore(tmpDir); // prime cache
+    clearIgnoreCache();
+    writeFileSync(ignoreFile, 'changed/');
+    const result = findPhpcsIgnore(tmpDir);
+    strictEqual(result, 'changed/'); // fresh read after clear
+  });
+});
+
+suite('Exclusion config cache', function () {
+  setup(function () {
+    clearExcludedCache();
+  });
+
+  teardown(function () {
+    clearExcludedCache();
+  });
+
+  test('isExcludedByConfig returns false for unknown paths', function () {
+    strictEqual(isExcludedByConfig('/some/unknown/file.php'), false);
+  });
+
+  test('markExcludedByConfig + isExcludedByConfig returns true', function () {
+    markExcludedByConfig('/some/file.php');
+    strictEqual(isExcludedByConfig('/some/file.php'), true);
+  });
+
+  test('Marking one path does not affect other paths', function () {
+    markExcludedByConfig('/path/a.php');
+    strictEqual(isExcludedByConfig('/path/b.php'), false);
+  });
+
+  test('clearExcludedCache removes all marked paths', function () {
+    markExcludedByConfig('/path/a.php');
+    markExcludedByConfig('/path/b.php');
+    clearExcludedCache();
+    strictEqual(isExcludedByConfig('/path/a.php'), false);
+    strictEqual(isExcludedByConfig('/path/b.php'), false);
   });
 });
